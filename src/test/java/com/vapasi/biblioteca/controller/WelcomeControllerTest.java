@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@WebMvcTest(controllers = WelcomeController.class)
 @ExtendWith(SpringExtension.class)
 public class WelcomeControllerTest {
 
@@ -21,9 +21,6 @@ public class WelcomeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @MockBean
-    private BookController bookController;
 
     @Test
     public void shouldShowWelcomeMessageWhenHitDefaultUrl() throws Exception {
