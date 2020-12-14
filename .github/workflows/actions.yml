@@ -2,7 +2,7 @@ name: Biblioteca
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, test-actions-db]
 
 jobs:
   build:
