@@ -8,6 +8,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Opens tcp port 6379 on the host and service container
+          - 5432:5432
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
@@ -16,6 +34,11 @@ jobs:
           java-version: 1.8
       - name: Build with Gradle
         run: ./gradlew build
+        env:
+          JDBC_DATABASE_URL: jdbc:postgresql://localhost:5432
+          JDBC_DATABASE_USERNAME: postgres
+          JDBC_DATABASE_PASSWORD: postgres
+          SPRING_JPA_DATABASE-PLATFORM: postgres
   deploy:
     runs-on: ubuntu-latest
     needs: build
