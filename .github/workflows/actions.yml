@@ -2,7 +2,7 @@ name: Biblioteca
 
 on:
   push:
-    branches: [ main, test-actions-db]
+    branches: [ main ]
 
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          # Opens tcp port 6379 on the host and service container
+          # Opens tcp port 5432 on the host and service container
           - 5432:5432
 
     steps:
@@ -39,6 +39,7 @@ jobs:
           JDBC_DATABASE_USERNAME: postgres
           JDBC_DATABASE_PASSWORD: postgres
           SPRING_JPA_DATABASE-PLATFORM: postgres
+          SPRING_DATASOURCE_INITIALIZATION_MODE: always
   deploy:
     runs-on: ubuntu-latest
     needs: build
