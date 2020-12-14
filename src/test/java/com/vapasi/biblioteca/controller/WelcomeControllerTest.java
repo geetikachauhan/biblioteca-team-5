@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -21,14 +22,8 @@ public class WelcomeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private WelcomeController welcomeController;
-
-
-    @Test
-    public void shouldReturnWelcomeMessageSetInProperties() {
-        assertEquals(WELCOME_MESSAGE, welcomeController.getWelcomeMessage().getBody());
-    }
+    @MockBean
+    private BookController bookController;
 
     @Test
     public void shouldShowWelcomeMessageWhenHitDefaultUrl() throws Exception {
@@ -36,8 +31,4 @@ public class WelcomeControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().string(WELCOME_MESSAGE));
     }
-
-
-
-
 }

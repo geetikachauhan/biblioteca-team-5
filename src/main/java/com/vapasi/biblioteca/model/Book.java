@@ -15,4 +15,21 @@ public class Book {
     private Integer id;
 
     private String title;
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Book() {
+    }
+
+    public Book(Integer id, String title) {
+        this.id = id;
+        this.title = title;
+    }
 }

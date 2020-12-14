@@ -20,7 +20,6 @@ public class BibliotecaApplication {
 		SpringApplication.run(BibliotecaApplication.class, args);
 	}
 
-
 	@Bean
 	public Docket swaggerConfiguration(){
 		return new Docket(DocumentationType.SWAGGER_2)
@@ -36,11 +35,11 @@ public class BibliotecaApplication {
 				"API for Library Management",
 				"1.0",
 				"Free to use",
-				new springfox.documentation.service.Contact("[Geethika,Neha,Ramya,Rathipriya,Sakthe]","http://vapasi.com","vapasi@thoughtworks.com"),
+				new springfox.documentation.service.Contact("[Geetika,Neha,Ramya,Rathipriya,Sakthe]","http://vapasi.com","vapasi@thoughtworks.com"),
 				"API License",
 				"http://vapasi.com",
 				Collections.emptyList());
 
 	}
-}
 
+}
