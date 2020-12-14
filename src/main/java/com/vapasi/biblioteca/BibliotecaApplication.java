@@ -25,7 +25,7 @@ public class BibliotecaApplication {
 	public Docket swaggerConfiguration(){
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
-				.paths(PathSelectors.ant("/biblioteca/*"))
+				.paths(PathSelectors.ant("/biblioteca/**"))
 				.apis(RequestHandlerSelectors.basePackage("com.vapasi"))
 				.build().apiInfo(apiDetails());
 	}
