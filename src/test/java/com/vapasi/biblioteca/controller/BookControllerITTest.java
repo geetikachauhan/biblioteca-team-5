@@ -18,7 +18,7 @@ class BookControllerITTest {
 
     @Test
     void shouldListTheBooks() throws JSONException {
-        String response = this.restTemplate.getForObject("/biblioteca/books/list" , String.class);
+        String response = this.restTemplate.getForObject("/bibliotecadb/books/list", String.class);
         JSONAssert.assertEquals("[{id:1} , {id:2} ,{id:3} ,{id:4} ,{id:5} ,{id:6}]" , response , false);
     }
 
