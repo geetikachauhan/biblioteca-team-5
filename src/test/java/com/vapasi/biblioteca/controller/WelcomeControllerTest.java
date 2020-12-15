@@ -4,18 +4,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = WelcomeController.class)
 @ExtendWith(SpringExtension.class)
-public class WelcomeControllerTest {
+class WelcomeControllerTest {
 
     private final String WELCOME_MESSAGE = "Hello, Welcome to Biblioteca !";
 
@@ -23,9 +21,9 @@ public class WelcomeControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void shouldShowWelcomeMessageWhenHitDefaultUrl() throws Exception {
+    void shouldShowWelcomeMessageWhenHitDefaultUrl() throws Exception {
         mockMvc.perform(get("/biblioteca"))
-        .andExpect(status().isOk())
-        .andExpect(content().string(WELCOME_MESSAGE));
+                .andExpect(status().isOk())
+                .andExpect(content().string(WELCOME_MESSAGE));
     }
 }

@@ -1,6 +1,6 @@
-insert into book(title) values (' A Game of Thrones');
-insert into book(title) values('The Fellowship of the Ring');
-insert into book(title) values('The Lion, the Witch and the Wardrobe');
-insert into book(title) values('The Colour of Magic');
-insert into book(title) values('Assassin’s Apprentice');
-insert into book(title) values('The Lies of Locke Lamora');
+ insert into book(title , available) values ('A Game of Thrones',true);
+ insert into book(title , available) values('The Fellowship of the Ring',true);
+ insert into book(title , available) values('The Lion, the Witch and the Wardrobe',true);
+ insert into book(title , available) values('The Colour of Magic',true);
+ insert into book(title , available) values('Assassin’s Apprentice',true);
+ insert into book(title , available) values('The Lies of Locke Lamora',true);

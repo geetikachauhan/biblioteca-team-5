@@ -1,5 +1,6 @@
 package com.vapasi.biblioteca.controller;
 
+
 import com.vapasi.biblioteca.response.BookResponse;
 import com.vapasi.biblioteca.service.BookService;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,6 +30,7 @@ class BookControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private BookService bookService;
+    private final String BOOK_TITLE = "The Fellowship of the Ring";
 
     @Test
     void shouldListBooks() throws Exception {
@@ -44,4 +48,26 @@ class BookControllerTest {
                         "  }]"));
 
     }
+
+
+    @Test
+    void shouldCheckOutExistingBook() throws Exception {
+        when(bookService.checkoutBook(any())).thenReturn(true);
+        mockMvc.perform(put("/biblioteca/books/checkout/Harry Potter")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+    }
+
+    @Test
+    void shouldNotCheckOutUnAvailableBook() throws Exception {
+        when(bookService.checkoutBook(any())).thenReturn(false);
+        mockMvc.perform(put("/biblioteca/books/checkout/Harry Potter")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("false"));
+
+
+    }
+
 }

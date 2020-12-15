@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class BookService {
-
+    @Autowired
     private BookRepository bookRepository;
 
-    @Autowired
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
@@ -24,5 +24,28 @@ public class BookService {
         List<BookResponse> allBooksResponse = new ArrayList<>();
         allBooks.forEach(book -> allBooksResponse.add(new BookResponse(book.getId(), book.getTitle())));
         return allBooksResponse;
+    }
+
+    public Boolean checkoutBook(String bookTitle) {
+        Book book = findBookByTitle(bookTitle);
+        if (isBookAvailable(book)) {
+            bookRepository.save(new Book(book.getId(), book.getTitle(), false));
+            return true;
+        }
+        return false;
+
+    }
+
+    public Book findBookByTitle(String bookTitle) {
+        return bookRepository.findByTitle(bookTitle);
+    }
+
+    public boolean isBookAvailable(Book book) {
+        boolean isAvailable = false;
+        if (book != null && book.isAvailable())
+            return true;
+        return isAvailable;
+
+
     }
 }

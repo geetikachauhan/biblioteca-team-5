@@ -27,6 +27,7 @@ dependencies {
 
 test {
 	environment "SPRING_JPA_HIBERNATE_DDL_AUTO", "create-drop"
+	environment "SPRING_DATASOURCE_INITIALIZATION_MODE", "always"
 	useJUnitPlatform()
 }
 
