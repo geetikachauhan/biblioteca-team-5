@@ -26,8 +26,15 @@ public class BookController {
     @Value("${checkout.success}")
     private String checkoutSuccessMessage;
 
-    @Value("${checkout.unsuccess}")
+    @Value("${checkout.unsuccessful}")
     private String checkoutUnSuccessMessage;
+
+
+    @Value("${return.success}")
+    private String returnSuccessMessage;
+
+    @Value("${return.unsuccessful}")
+    private String returnUnSuccessMessage;
 
     @GetMapping("")
     public ResponseEntity<List<BookResponse>> listBooks() {
@@ -40,6 +47,14 @@ public class BookController {
         String message=checkoutUnSuccessMessage;
         if(bookService.checkoutBook(title))
             message=checkoutSuccessMessage;
+        return ResponseEntity.ok().body(message);
+    }
+
+    @PutMapping("/{title}/return")
+    public ResponseEntity<String> returnBook(@PathVariable("title") String title) {
+        String message=returnUnSuccessMessage;
+        if(bookService.returnBook(title))
+            message=returnSuccessMessage;
         return ResponseEntity.ok().body(message);
     }
 

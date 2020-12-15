@@ -31,6 +31,10 @@ class BookControllerTest {
     @MockBean
     private BookService bookService;
     private final String BOOK_TITLE = "The Fellowship of the Ring";
+    private final String CHECKOUT_SUCCESS="Thank you! Enjoy the book";
+    private final String CHECKOUT_UNSUCCESSFULL="That book is not available.";
+    private final String RETURN_SUCCESS="Thank you for returning the book";
+    private final String RETURN_UNSUCCESSFULL="That is not a valid book to return";
 
     @Test
     void shouldListBooks() throws Exception {
@@ -53,10 +57,10 @@ class BookControllerTest {
     @Test
     void shouldCheckOutExistingBook() throws Exception {
         when(bookService.checkoutBook(any())).thenReturn(true);
-        mockMvc.perform(put("/books/Harry Potter/checkout")
+        mockMvc.perform(put("/books/A Game of Thrones/checkout")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Thank you! Enjoy the book"));
+                .andExpect(content().string(CHECKOUT_SUCCESS));
     }
 
     @Test
@@ -65,7 +69,27 @@ class BookControllerTest {
         mockMvc.perform(put("/books/Harry Potter/checkout")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("That book is not available."));
+                .andExpect(content().string(CHECKOUT_UNSUCCESSFULL));
+
+
+    }
+
+    @Test
+    void shouldReturnExistingBook() throws Exception {
+        when(bookService.returnBook(any())).thenReturn(true);
+        mockMvc.perform(put("/books/A Game of Thrones/return")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(RETURN_SUCCESS));
+    }
+
+    @Test
+    void shouldNotReturnNonExistingBook() throws Exception {
+        when(bookService.returnBook(any())).thenReturn(false);
+        mockMvc.perform(put("/books/Harry Potter/return")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(RETURN_UNSUCCESSFULL));
 
 
     }

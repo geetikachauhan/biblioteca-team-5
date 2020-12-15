@@ -23,7 +23,7 @@ public class BookService {
         List<Book> allBooks = bookRepository.findAllByOrderByTitleAsc();
         List<BookResponse> allBooksResponse = new ArrayList<>();
         allBooks.stream()
-                .filter(book -> isBookAvailable(book))
+                .filter(this::isBookAvailable)
                 .forEach(book -> allBooksResponse.add(new BookResponse(book.getId(), book.getTitle())));
         return allBooksResponse;
     }
@@ -44,5 +44,14 @@ public class BookService {
 
     public boolean isBookAvailable(Book book) {
         return (book != null && book.isAvailable());
+    }
+
+    public boolean returnBook(String bookTitle) {
+        Book book = findBookByTitle(bookTitle);
+        if (!isBookAvailable(book) && book != null) {
+            bookRepository.save(new Book(book.getId(), book.getTitle(), true));
+            return true;
+        }
+        return false;
     }
 }
