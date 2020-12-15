@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.3.7.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
+	id "org.flywaydb.flyway" version "7.3.1"
 }
 
 group = 'com.vapasi'
@@ -15,6 +16,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.flywaydb:flyway-core'
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -32,5 +34,6 @@ test {
 }
 
 bootRun {
-	environment "SPRING_DATASOURCE_INITIALIZATION_MODE", "always"
+	environment "SPRING_JPA_HIBERNATE_DDL_AUTO", "none"
+	environment "SPRING_DATASOURCE_INITIALIZATION_MODE", "never"
 }

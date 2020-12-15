@@ -51,5 +51,4 @@ class BookControllerITTest {
         ResponseEntity<String> response = this.restTemplate.exchange(url, HttpMethod.PUT, entity, String.class, id);
         assertEquals("false", response.getBody());
     }
-
 }

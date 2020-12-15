@@ -41,10 +41,9 @@ public class BookService {
     }
 
     public boolean isBookAvailable(Book book) {
-        boolean isAvailable = false;
         if (book != null && book.isAvailable())
             return true;
-        return isAvailable;
+        return false;
 
 
     }

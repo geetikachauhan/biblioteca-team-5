@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 class WelcomeControllerTest {
 
-    private final String WELCOME_MESSAGE = "Hello, Welcome to Biblioteca !";
+    static final String WELCOME_MESSAGE = "Hello, Welcome to Biblioteca !";
 
     @Autowired
     private MockMvc mockMvc;
