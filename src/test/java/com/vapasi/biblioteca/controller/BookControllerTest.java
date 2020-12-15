@@ -35,7 +35,7 @@ class BookControllerTest {
     @Test
     void shouldListBooks() throws Exception {
         when(bookService.listBooks()).thenReturn(Arrays.asList(new BookResponse(1, "Harry Potter"), new BookResponse(2, "The Colour of Magic")));
-        mockMvc.perform(get("/biblioteca/books/list")
+        mockMvc.perform(get("/books")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{" +
@@ -53,7 +53,7 @@ class BookControllerTest {
     @Test
     void shouldCheckOutExistingBook() throws Exception {
         when(bookService.checkoutBook(any())).thenReturn(true);
-        mockMvc.perform(put("/biblioteca/books/checkout/Harry Potter")
+        mockMvc.perform(put("/books/Harry Potter/checkout")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Thank you! Enjoy the book"));
@@ -62,7 +62,7 @@ class BookControllerTest {
     @Test
     void shouldNotCheckOutUnAvailableBook() throws Exception {
         when(bookService.checkoutBook(any())).thenReturn(false);
-        mockMvc.perform(put("/biblioteca/books/checkout/Harry Potter")
+        mockMvc.perform(put("/books/Harry Potter/checkout")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("That book is not available."));

@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/biblioteca/books")
+@RequestMapping("/books")
 public class BookController {
 
     @Autowired
@@ -29,13 +29,13 @@ public class BookController {
     @Value("${checkout.unsuccess}")
     private String checkoutUnSuccessMessage;
 
-    @GetMapping("/list")
+    @GetMapping("")
     public ResponseEntity<List<BookResponse>> listBooks() {
         return ResponseEntity.ok().body(bookService.listBooks());
     }
 
 
-    @PutMapping("/checkout/{title}")
+    @PutMapping("/{title}/checkout")
     public ResponseEntity<String> checkoutBook(@PathVariable("title") String title) {
         String message=checkoutUnSuccessMessage;
         if(bookService.checkoutBook(title))

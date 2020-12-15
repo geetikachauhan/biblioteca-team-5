@@ -34,20 +34,20 @@ class BookControllerITTest {
 
     @Test
     void shouldListTheBooks() throws JSONException {
-        String response = this.restTemplate.getForObject("/biblioteca/books/list", String.class);
+        String response = this.restTemplate.getForObject("/books", String.class);
         JSONAssert.assertEquals("[{id:2} ,{id:3} ,{id:4} ,{id:5} ,{id:6}]", response, false);
     }
 
     @Test
     void shouldCheckoutBook() {
-        String url = "/biblioteca/books/checkout/A Game of Thrones";
+        String url = "/books/A Game of Thrones/checkout";
         ResponseEntity<String> response = this.restTemplate.exchange(url, HttpMethod.PUT, entity, String.class, id);
         assertEquals("Thank you! Enjoy the book", response.getBody());
     }
 
     @Test
     void shouldNotCheckoutBook() {
-        String url = "/biblioteca/books/checkout/Harry Potter";
+        String url = "/books/Harry Potter/checkout";
         ResponseEntity<String> response = this.restTemplate.exchange(url, HttpMethod.PUT, entity, String.class, id);
         assertEquals("That book is not available.", response.getBody());
     }
