@@ -20,7 +20,7 @@ public class BookService {
     }
 
     public List<BookResponse> listBooks() {
-        List<Book> allBooks = bookRepository.findAll();
+        List<Book> allBooks = bookRepository.findAllByOrderByTitleAsc();
         List<BookResponse> allBooksResponse = new ArrayList<>();
         allBooks.forEach(book -> allBooksResponse.add(new BookResponse(book.getId(), book.getTitle())));
         return allBooksResponse;
@@ -41,10 +41,6 @@ public class BookService {
     }
 
     public boolean isBookAvailable(Book book) {
-        if (book != null && book.isAvailable())
-            return true;
-        return false;
-
-
+        return (book != null && book.isAvailable());
     }
 }
