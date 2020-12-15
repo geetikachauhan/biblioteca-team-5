@@ -1,1 +1,1 @@
-CREATE SCHEMA IF NOT EXISTS biblioteca_s;
+CREATE SCHEMA IF NOT EXISTS biblioteca;

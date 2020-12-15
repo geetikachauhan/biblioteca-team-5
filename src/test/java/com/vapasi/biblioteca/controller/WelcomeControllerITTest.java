@@ -12,13 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
-public class WelcomeControllerITTest {
+class WelcomeControllerITTest {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
 
     @Test
-    public void shouldDisplayWelcomeMessage() {
+    void shouldDisplayWelcomeMessage() {
         String response = testRestTemplate.getForObject("/biblioteca/" , String.class);
         assertEquals( WELCOME_MESSAGE, response);
     }

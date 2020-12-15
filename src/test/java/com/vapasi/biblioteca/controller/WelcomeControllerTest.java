@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = WelcomeController.class)
 @ExtendWith(SpringExtension.class)
-public class WelcomeControllerTest {
+class WelcomeControllerTest {
 
     static final String WELCOME_MESSAGE = "Hello, Welcome to Biblioteca !";
 
@@ -22,7 +22,7 @@ public class WelcomeControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void shouldShowWelcomeMessageWhenHitDefaultUrl() throws Exception {
+    void shouldShowWelcomeMessageWhenHitDefaultUrl() throws Exception {
         mockMvc.perform(get("/bibliotecadb"))
         .andExpect(status().isOk())
         .andExpect(content().string(WELCOME_MESSAGE));
