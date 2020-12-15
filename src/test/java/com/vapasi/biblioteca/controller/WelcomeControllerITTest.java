@@ -19,7 +19,7 @@ class WelcomeControllerITTest {
 
     @Test
     void shouldDisplayWelcomeMessage() {
-        String response = testRestTemplate.getForObject("/biblioteca/" , String.class);
+        String response = testRestTemplate.getForObject("/welcome/" , String.class);
         assertEquals( WELCOME_MESSAGE, response);
     }
 }

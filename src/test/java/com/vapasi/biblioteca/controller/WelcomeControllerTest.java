@@ -22,7 +22,7 @@ class WelcomeControllerTest {
 
     @Test
     void shouldShowWelcomeMessageWhenHitDefaultUrl() throws Exception {
-        mockMvc.perform(get("/biblioteca"))
+        mockMvc.perform(get("/welcome"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(WELCOME_MESSAGE));
     }

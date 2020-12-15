@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/biblioteca")
+@RequestMapping("/welcome")
 public class WelcomeController {
 
     @Value("${welcome.message}")
