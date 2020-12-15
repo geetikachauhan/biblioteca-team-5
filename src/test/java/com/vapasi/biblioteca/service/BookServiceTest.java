@@ -8,9 +8,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -32,7 +34,7 @@ class BookServiceTest {
 
     @Test
     void shouldReturnListAvailableOfBooks() {
-        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter" ,false), new Book(2, "Ponniyin Selvan" , true));
+        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter", false), new Book(2, "Ponniyin Selvan", true));
         List<BookResponse> expectedBookResponseList = new ArrayList();
         expectedBookResponseList.add(new BookResponse(2, "Ponniyin Selvan"));
         when(bookRepository.findAllByOrderByTitleAsc()).thenReturn(expectedBookList);
@@ -106,5 +108,26 @@ class BookServiceTest {
         assertNull(bookService.findBookByTitle(book.getTitle()));
     }
 
+    @Test
+    void shouldNotReturnExistingBookAvailable() {
+        Book book = AVAILABLE_BOOK;
+        Book returnBook = new Book(book.getId(), book.getTitle(), true);
+        when(bookRepository.findByTitle(BOOK_TITLE)).thenReturn(book);
+        assertFalse(bookService.returnBook(book.getTitle()));
+    }
+
+    @Test
+    void shouldNotReturnNonExistingBook() {
+        Book book = NON_EXISTING_BOOK;
+        when(bookRepository.findByTitle(any())).thenReturn(null);
+        assertFalse(bookService.returnBook(book.getTitle()));
+    }
+
+    @Test
+    void shouldReturnExistingUnAvailableBook() {
+        Book book = UNAVAILABLE_BOOK;
+        when(bookRepository.findByTitle(any())).thenReturn(book);
+        assertTrue(bookService.returnBook(book.getTitle()));
+    }
 
 }
