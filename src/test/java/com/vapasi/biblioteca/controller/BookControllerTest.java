@@ -56,7 +56,7 @@ class BookControllerTest {
         mockMvc.perform(put("/biblioteca/books/checkout/Harry Potter")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("true"));
+                .andExpect(content().string("Thank you! Enjoy the book"));
     }
 
     @Test
@@ -65,7 +65,7 @@ class BookControllerTest {
         mockMvc.perform(put("/biblioteca/books/checkout/Harry Potter")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("false"));
+                .andExpect(content().string("That book is not available."));
 
 
     }

@@ -31,12 +31,11 @@ class BookServiceTest {
     private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter", false);
 
     @Test
-    void shouldReturnListOfBooks() {
-        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter"), new Book(2, "Ponniyin Selvan"));
+    void shouldReturnListAvailableOfBooks() {
+        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter" ,false), new Book(2, "Ponniyin Selvan" , true));
         List<BookResponse> expectedBookResponseList = new ArrayList();
-        expectedBookList.forEach(book -> expectedBookResponseList.add(new BookResponse(book.getId(), book.getTitle())));
-        when(bookRepository.findAllByOrderByTitleAsc()).thenReturn(expectedBookList);
-
+        expectedBookResponseList.add(new BookResponse(2, "Ponniyin Selvan"));
+        when(bookRepository.findAll()).thenReturn(expectedBookList);
         List<BookResponse> actualBookResponseList = bookService.listBooks();
 
         assertEquals(expectedBookResponseList, actualBookResponseList);

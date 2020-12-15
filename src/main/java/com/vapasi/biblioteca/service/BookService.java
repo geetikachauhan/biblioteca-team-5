@@ -22,7 +22,9 @@ public class BookService {
     public List<BookResponse> listBooks() {
         List<Book> allBooks = bookRepository.findAllByOrderByTitleAsc();
         List<BookResponse> allBooksResponse = new ArrayList<>();
-        allBooks.forEach(book -> allBooksResponse.add(new BookResponse(book.getId(), book.getTitle())));
+        allBooks.stream()
+                .filter(book -> isBookAvailable(book))
+                .forEach(book -> allBooksResponse.add(new BookResponse(book.getId(), book.getTitle())));
         return allBooksResponse;
     }
 
