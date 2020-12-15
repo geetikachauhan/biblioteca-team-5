@@ -35,7 +35,7 @@ class BookServiceTest {
         List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter" ,false), new Book(2, "Ponniyin Selvan" , true));
         List<BookResponse> expectedBookResponseList = new ArrayList();
         expectedBookResponseList.add(new BookResponse(2, "Ponniyin Selvan"));
-        when(bookRepository.findAll()).thenReturn(expectedBookList);
+        when(bookRepository.findAllByOrderByTitleAsc()).thenReturn(expectedBookList);
         List<BookResponse> actualBookResponseList = bookService.listBooks();
 
         assertEquals(expectedBookResponseList, actualBookResponseList);
