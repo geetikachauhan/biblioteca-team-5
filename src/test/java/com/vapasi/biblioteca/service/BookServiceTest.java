@@ -44,7 +44,7 @@ class BookServiceTest {
     }
 
     @Test
-    void shouldReturnTrueForExistingBooksAvailableBooks() {
+    void shouldReturnTrueForExistingAvailableBooks() {
         when(bookRepository.findByTitle(BOOK_TITLE)).thenReturn(AVAILABLE_BOOK);
         Book book = bookRepository.findByTitle(BOOK_TITLE);
         System.out.println(book);

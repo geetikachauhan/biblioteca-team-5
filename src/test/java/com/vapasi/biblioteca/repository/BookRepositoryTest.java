@@ -23,13 +23,13 @@ class BookRepositoryTest {
 
 
     @Test
-    void shouldListTheBooks() {
-        List<Book> bookList = bookRepository.findAll();
+    void shouldListTheBooksInAlphabeticalOrder() {
+        List<Book> bookList = bookRepository.findAllByOrderByTitleAsc();
         assertEquals(6, bookList.size());
     }
 
     @Test
-    void shouldCheckoutTheExistingBook() {
+    void shouldUpdateTheExistingBook() {
 
         Book existingBook = bookRepository.findByTitle(BOOK_TITLE);
         bookRepository.save(new Book(existingBook.getId(), existingBook.getTitle(), false));
