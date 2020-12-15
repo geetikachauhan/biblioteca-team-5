@@ -31,7 +31,7 @@ class BookControllerTest {
     @Test
     void shouldListBooks() throws Exception {
         when(bookService.listBooks()).thenReturn(Arrays.asList(new BookResponse(1, "Harry Potter"), new BookResponse(2, "The Colour of Magic")));
-        mockMvc.perform(get("/bibliotecadb/books/list")
+        mockMvc.perform(get("/biblioteca/books/list")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{" +
