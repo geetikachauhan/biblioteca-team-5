@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS ${schema_name}.book (
+CREATE TABLE IF NOT EXISTS book (
     id SERIAL,
     title VARCHAR NOT NULL,
     PRIMARY KEY (id)
