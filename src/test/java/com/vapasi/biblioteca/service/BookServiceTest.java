@@ -30,15 +30,15 @@ class BookServiceTest {
     private final String EXISTING_BOOK_TITLE = "The Fellowship of the Ring";
     private final String BOOK_AUTHOR = "J. R. R. Tolkien";
     private final Integer BOOK_YEAR = 1954;
-    private final Book AVAILABLE_BOOK = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, true);
-    private final Book UNAVAILABLE_BOOK = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, false);
-    private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter", "JK Rowling" , 1997,  false);
+    private final Book AVAILABLE_BOOK = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, "978-1-60309-047-6" , true);
+    private final Book UNAVAILABLE_BOOK = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, "978-1-60309-047-6" ,false);
+    private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter", "JK Rowling" , 1997, "978-1-60309-025-5" , false);
 
     @Test
     void shouldReturnListAvailableOfBooks() {
-        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter", "J. K. Rowling", 1997, false), new Book(2, "Ponniyin Selvan", "Kalki Krishnamurthy", 1950, true));
+        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter", "J. K. Rowling", 1997, "978-1-60309-025-5" ,false), new Book(2, "Ponniyin Selvan", "Kalki Krishnamurthy", 1950 ,"978-1-60309-400-5", true));
         List<BookResponse> expectedBookResponseList = new ArrayList();
-        expectedBookResponseList.add(new BookResponse("Ponniyin Selvan", "Kalki Krishnamurthy", 1950));
+        expectedBookResponseList.add(new BookResponse("Ponniyin Selvan", "Kalki Krishnamurthy",1950 ,"978-1-60309-400-5"  ));
         when(bookRepository.findAllByOrderByTitleAsc()).thenReturn(expectedBookList);
         List<BookResponse> actualBookResponseList = bookService.listBooks();
 
@@ -72,7 +72,7 @@ class BookServiceTest {
     @Test
     void shouldCheckoutExistingBook() {
         Book book = AVAILABLE_BOOK;
-        Book checkOutBook = new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), false);
+        Book checkOutBook = new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn() ,false);
         when(bookRepository.findByTitle(EXISTING_BOOK_TITLE)).thenReturn(book);
         when(bookRepository.save(any())).thenReturn(checkOutBook);
         assertTrue(bookService.checkoutBook(book.getTitle()));

@@ -54,7 +54,7 @@ public class BookController {
             checkoutStatus = "Success";
             message = checkoutSuccessMessage;
         }
-        logger.info("[Books-Checkout-Action] Guest  BookTitle:" + title + "   " + new Timestamp(System.currentTimeMillis()) + "Checkout Status: " + checkoutStatus);
+        logger.info("[Books-Checkout-Action] Guest  BookTitle:" + title + "   " + new Timestamp(System.currentTimeMillis()) + "   Checkout Status: " + checkoutStatus);
         return ResponseEntity.ok().body(message);
     }
 
@@ -66,7 +66,7 @@ public class BookController {
             message = returnSuccessMessage;
             returnStatus = "Success";
         }
-        logger.info("[Books-Return-Action] Guest  BookTitle:" + title + "   " + new Timestamp(System.currentTimeMillis()) + "Return Status: " + returnStatus);
+        logger.info("[Books-Return-Action] Guest  BookTitle:" + title + "   " + new Timestamp(System.currentTimeMillis()) + "    Return Status: " + returnStatus);
         return ResponseEntity.ok().body(message);
     }
 

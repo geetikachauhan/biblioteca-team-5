@@ -16,17 +16,19 @@ public class Book {
     private String title;
     private String author;
     private Integer yearPublished;
+    private String isbn;
     private Boolean available;
 
     public Book() {
 
     }
 
-    public Book(Integer id, String title, String author, Integer yearPublished, Boolean available) {
+    public Book(Integer id, String title, String author, Integer yearPublished, String isbn, Boolean available) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.yearPublished = yearPublished;
+        this.isbn = isbn;
         this.available = available;
     }
 
@@ -47,6 +49,10 @@ public class Book {
         return yearPublished;
     }
 
+    public String getIsbn() {
+        return isbn;
+    }
+
     public Boolean isAvailable() {
         return available;
     }
@@ -56,6 +62,6 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(author, book.author) && Objects.equals(yearPublished, book.yearPublished) && Objects.equals(available, book.available);
+        return Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(author, book.author) && Objects.equals(yearPublished, book.yearPublished) && Objects.equals(isbn, book.isbn) && Objects.equals(available, book.available);
     }
 }

@@ -45,8 +45,8 @@ class BookControllerTest {
     @Test
     void shouldListBooks() throws Exception {
         when(bookService.listBooks()).thenReturn(Arrays
-                .asList(new BookResponse("Harry Potter", "J. K. Rowling", 1997),
-                        new BookResponse("The Colour of Magic", "Terry Pratchett", 1983)));
+                .asList(new BookResponse("Harry Potter", "J. K. Rowling", 1997 , "978-1-60309-025-5"),
+                        new BookResponse("The Colour of Magic", "Terry Pratchett", 1983 ,"978-1-891830-85-3")));
 
         mockMvc.perform(get(BOOKS_LIST_URL)
                 .accept(MediaType.APPLICATION_JSON))
@@ -54,13 +54,15 @@ class BookControllerTest {
                 .andExpect(content().json("[{" +
                         "    \"title\": \"Harry Potter\"," +
                         "    \"author\": \"J. K. Rowling\"," +
-                        "    \"yearPublished\": 1997" +
+                        "    \"yearPublished\": 1997," +
+                        "    \"isbn\": \"978-1-60309-025-5\"" +
 
                         "  }," +
                         "  {" +
                         "    \"title\": \"The Colour of Magic\"," +
                         "    \"author\": \"Terry Pratchett\"," +
-                        "    \"yearPublished\": 1983" +
+                        "    \"yearPublished\": 1983," +
+                        "    \"isbn\": \"978-1-891830-85-3\"" +
                         "  }]"));
 
     }
