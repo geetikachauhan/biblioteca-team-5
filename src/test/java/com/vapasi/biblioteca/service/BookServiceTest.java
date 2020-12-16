@@ -34,9 +34,9 @@ class BookServiceTest {
 
     @Test
     void shouldReturnListAvailableOfBooks() {
-        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter", false), new Book(2, "Ponniyin Selvan", true));
+        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter","J. K. Rowling", false), new Book(2, "Ponniyin Selvan","Kalki Krishnamurthy", true));
         List<BookResponse> expectedBookResponseList = new ArrayList();
-        expectedBookResponseList.add(new BookResponse(2, "Ponniyin Selvan"));
+        expectedBookResponseList.add(new BookResponse("Ponniyin Selvan","Kalki Krishnamurthy"));
         when(bookRepository.findAllByOrderByTitleAsc()).thenReturn(expectedBookList);
         List<BookResponse> actualBookResponseList = bookService.listBooks();
 

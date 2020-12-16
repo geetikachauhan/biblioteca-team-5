@@ -28,6 +28,7 @@ class BookControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
     @MockBean
     private BookService bookService;
     private final String BOOK_TITLE = "The Fellowship of the Ring";
@@ -38,17 +39,18 @@ class BookControllerTest {
 
     @Test
     void shouldListBooks() throws Exception {
-        when(bookService.listBooks()).thenReturn(Arrays.asList(new BookResponse(1, "Harry Potter"), new BookResponse(2, "The Colour of Magic")));
+        when(bookService.listBooks()).thenReturn(Arrays.asList(new BookResponse("Harry Potter","J. K. Rowling"), new BookResponse( "The Colour of Magic","Terry Pratchett")));
+
         mockMvc.perform(get("/books")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{" +
-                        "    \"id\": 1," +
-                        "    \"title\": \"Harry Potter\"" +
+                        "    \"title\": \"Harry Potter\"," +
+                        "    \"author\": \"J. K. Rowling\"" +
                         "  }," +
                         "  {" +
-                        "    \"id\": 2," +
-                        "    \"title\": \"The Colour of Magic\"" +
+                        "    \"title\": \"The Colour of Magic\"," +
+                        "    \"author\": \"Terry Pratchett\"" +
                         "  }]"));
 
     }

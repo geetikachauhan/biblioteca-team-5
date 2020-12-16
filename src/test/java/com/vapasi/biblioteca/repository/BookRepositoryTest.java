@@ -18,7 +18,8 @@ class BookRepositoryTest {
     @Autowired
     BookRepository bookRepository;
     private final String BOOK_TITLE = "The Fellowship of the Ring";
-    private final Book AVAILABLE_BOOK = new Book(2, BOOK_TITLE, true);
+    private final String BOOK_AUTHOR = "J. R. R. Tolkien";
+    private final Book AVAILABLE_BOOK = new Book(2, BOOK_TITLE, BOOK_AUTHOR, true);
     private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter", false);
 
 

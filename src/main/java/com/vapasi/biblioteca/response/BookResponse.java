@@ -4,20 +4,21 @@ import java.util.Objects;
 
 public class BookResponse {
 
-    private Integer id;
     private String title;
+    private String author;
 
-    public BookResponse(Integer id, String title) {
-        this.id = id;
+
+    public BookResponse(String title, String author) {
         this.title = title;
-    }
-
-    public Integer getId() {
-        return id;
+        this.author = author;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public String getAuthor() {
+        return author;
     }
 
     @Override
@@ -25,11 +26,11 @@ public class BookResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BookResponse that = (BookResponse) o;
-        return Objects.equals(id, that.id) && Objects.equals(title, that.title);
+        return Objects.equals(title, that.title) && Objects.equals(author, that.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title);
+        return Objects.hash(title, author);
     }
 }

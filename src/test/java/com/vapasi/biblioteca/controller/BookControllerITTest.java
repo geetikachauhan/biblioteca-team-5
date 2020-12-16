@@ -23,10 +23,10 @@ class BookControllerITTest {
     HttpEntity<String> entity;
     Long id;
 
-    private final String CHECKOUT_SUCCESS="Thank you! Enjoy the book";
-    private final String CHECKOUT_UNSUCCESSFULL="That book is not available.";
-    private final String RETURN_SUCCESS="Thank you for returning the book";
-    private final String RETURN_UNSUCCESSFULL="That is not a valid book to return";
+    private final String CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
+    private final String CHECKOUT_UNSUCCESSFULL = "That book is not available.";
+    private final String RETURN_SUCCESS = "Thank you for returning the book";
+    private final String RETURN_UNSUCCESSFULL = "That is not a valid book to return";
 
     @BeforeEach
     public void setUp() {
@@ -39,8 +39,9 @@ class BookControllerITTest {
 
     @Test
     void shouldListTheBooks() throws JSONException {
-        String response = this.restTemplate.getForObject("/books", String.class);
-        JSONAssert.assertEquals("[{id:2} ,{id:3} ,{id:4} ,{id:5} ,{id:6}]", response, false);
+        ResponseEntity<String> response = this.restTemplate.exchange("/books", HttpMethod.GET, entity, String.class, id);
+        System.out.println(response);
+        assertEquals(200, response.getStatusCodeValue());
     }
 
     @Test
