@@ -50,19 +50,26 @@ public class BookController {
 
     @PutMapping("/{title}/checkout")
     public ResponseEntity<String> checkoutBook(@PathVariable("title") String title) {
-        logger.info("[Books-Checkout-Action] Guest : " + new Timestamp(System.currentTimeMillis()) +"  BookTitle:" + title);
+        String checkoutStatus ="Unsuccess";
         String message=checkoutUnSuccessMessage;
-        if(bookService.checkoutBook(title))
+        if(bookService.checkoutBook(title)){
+            checkoutStatus ="Success";
             message=checkoutSuccessMessage;
+       }
+        logger.info("[Books-Checkout-Action] Guest  BookTitle:" + title + "   "+ new Timestamp(System.currentTimeMillis()) + "Checkout Status: " + checkoutStatus );
+
         return ResponseEntity.ok().body(message);
     }
 
     @PutMapping("/{title}/return")
     public ResponseEntity<String> returnBook(@PathVariable("title") String title) {
-        logger.info("[Books-Return-Action] Guest : " + new Timestamp(System.currentTimeMillis()) +"  BookTitle:" + title );
+        String returnStatus ="Unsuccess";
         String message=returnUnSuccessMessage;
-        if(bookService.returnBook(title))
+        if(bookService.returnBook(title)){
             message=returnSuccessMessage;
+            returnStatus ="Success";
+        }
+        logger.info("[Books-Return-Action] Guest  BookTitle:" + title + "   "+ new Timestamp(System.currentTimeMillis()) + "Return Status: " + returnStatus );
         return ResponseEntity.ok().body(message);
     }
 
