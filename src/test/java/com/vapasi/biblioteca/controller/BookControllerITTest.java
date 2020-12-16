@@ -1,10 +1,8 @@
 package com.vapasi.biblioteca.controller;
 
-import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -28,6 +26,15 @@ class BookControllerITTest {
     private final String RETURN_SUCCESS = "Thank you for returning the book";
     private final String RETURN_UNSUCCESSFULL = "That is not a valid book to return";
 
+    private final String BOOKS_LIST_URL = "/books";
+    private final String CHECKOUT_SUCCESS_URL = "/books/A Game of Thrones/checkout";
+    private final String CHECKOUT_UNSUCCESS_URL = "/books/Harry Potter/checkout";
+    private final String RETURN_SUCCESS_URL = "/books/A Game of Thrones/return";
+    private final String RETURN_UNSUCCESS_URL = "/books/Harry Potter/return";
+
+
+
+
     @BeforeEach
     public void setUp() {
         id = 2l;
@@ -38,37 +45,32 @@ class BookControllerITTest {
     }
 
     @Test
-    void shouldListTheBooks() throws JSONException {
-        ResponseEntity<String> response = this.restTemplate.exchange("/books", HttpMethod.GET, entity, String.class, id);
-        System.out.println(response);
-        assertEquals(200, response.getStatusCodeValue());
+    void shouldListTheBooks() {
+        ResponseEntity<String> response = this.restTemplate.exchange(BOOKS_LIST_URL, HttpMethod.GET, entity, String.class, id);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     void shouldCheckoutBook() {
-        String url = "/books/A Game of Thrones/checkout";
-        ResponseEntity<String> response = this.restTemplate.exchange(url, HttpMethod.PUT, entity, String.class, id);
+        ResponseEntity<String> response = this.restTemplate.exchange(CHECKOUT_SUCCESS_URL , HttpMethod.PUT, entity, String.class, id);
         assertEquals(CHECKOUT_SUCCESS, response.getBody());
     }
 
     @Test
     void shouldNotCheckoutBook() {
-        String url = "/books/Harry Potter/checkout";
-        ResponseEntity<String> response = this.restTemplate.exchange(url, HttpMethod.PUT, entity, String.class, id);
+        ResponseEntity<String> response = this.restTemplate.exchange(CHECKOUT_UNSUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
         assertEquals(CHECKOUT_UNSUCCESSFULL, response.getBody());
     }
 
     @Test
     void shouldReturnBook() {
-        String url = "/books/A Game of Thrones/return";
-        ResponseEntity<String> response = this.restTemplate.exchange(url, HttpMethod.PUT, entity, String.class, id);
+        ResponseEntity<String> response = this.restTemplate.exchange(RETURN_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
         assertEquals(RETURN_SUCCESS, response.getBody());
     }
 
     @Test
     void shouldNotReturnBook() {
-        String url = "/books/Harry Potter/return";
-        ResponseEntity<String> response = this.restTemplate.exchange(url, HttpMethod.PUT, entity, String.class, id);
+        ResponseEntity<String> response = this.restTemplate.exchange(RETURN_UNSUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
         assertEquals(RETURN_UNSUCCESSFULL, response.getBody());
     }
 }

@@ -36,11 +36,19 @@ class BookControllerTest {
     private final String RETURN_SUCCESS = "Thank you for returning the book";
     private final String RETURN_UNSUCCESSFULL = "That is not a valid book to return";
 
+    private final String BOOKS_LIST_URL = "/books";
+    private final String CHECKOUT_SUCCESS_URL = "/books/A Game of Thrones/checkout";
+    private final String CHECKOUT_UNSUCCESS_URL = "/books/Harry Potter/checkout";
+    private final String RETURN_SUCCESS_URL = "/books/A Game of Thrones/return";
+    private final String RETURN_UNSUCCESS_URL = "/books/Harry Potter/return";
+
     @Test
     void shouldListBooks() throws Exception {
-        when(bookService.listBooks()).thenReturn(Arrays.asList(new BookResponse("Harry Potter", "J. K. Rowling",1997), new BookResponse("The Colour of Magic", "Terry Pratchett",1983)));
+        when(bookService.listBooks()).thenReturn(Arrays
+                .asList(new BookResponse("Harry Potter", "J. K. Rowling", 1997),
+                        new BookResponse("The Colour of Magic", "Terry Pratchett", 1983)));
 
-        mockMvc.perform(get("/books")
+        mockMvc.perform(get(BOOKS_LIST_URL)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{" +
@@ -61,7 +69,7 @@ class BookControllerTest {
     @Test
     void shouldCheckOutExistingBook() throws Exception {
         when(bookService.checkoutBook(any())).thenReturn(true);
-        mockMvc.perform(put("/books/A Game of Thrones/checkout")
+        mockMvc.perform(put(CHECKOUT_SUCCESS_URL)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(CHECKOUT_SUCCESS));
@@ -70,7 +78,7 @@ class BookControllerTest {
     @Test
     void shouldNotCheckOutUnAvailableBook() throws Exception {
         when(bookService.checkoutBook(any())).thenReturn(false);
-        mockMvc.perform(put("/books/Harry Potter/checkout")
+        mockMvc.perform(put(CHECKOUT_UNSUCCESS_URL)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(CHECKOUT_UNSUCCESSFULL));
@@ -81,7 +89,7 @@ class BookControllerTest {
     @Test
     void shouldReturnExistingBook() throws Exception {
         when(bookService.returnBook(any())).thenReturn(true);
-        mockMvc.perform(put("/books/A Game of Thrones/return")
+        mockMvc.perform(put(RETURN_SUCCESS_URL)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(RETURN_SUCCESS));
@@ -90,7 +98,7 @@ class BookControllerTest {
     @Test
     void shouldNotReturnNonExistingBook() throws Exception {
         when(bookService.returnBook(any())).thenReturn(false);
-        mockMvc.perform(put("/books/Harry Potter/return")
+        mockMvc.perform(put(RETURN_UNSUCCESS_URL)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(RETURN_UNSUCCESSFULL));

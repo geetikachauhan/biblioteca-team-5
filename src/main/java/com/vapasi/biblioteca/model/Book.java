@@ -3,9 +3,7 @@ package com.vapasi.biblioteca.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
 import java.util.Objects;
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -16,19 +14,12 @@ public class Book {
     private Integer id;
 
     private String title;
-
     private String author;
     private Integer yearPublished;
     private Boolean available;
 
     public Book() {
 
-    }
-
-    public Book(Integer id, String title, Boolean isAvailable) {
-        this.id = id;
-        this.title = title;
-        this.available = isAvailable;
     }
 
     public Book(Integer id, String title, String author, Integer yearPublished, Boolean available) {

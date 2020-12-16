@@ -3,4 +3,4 @@ insert into book(title , author , year_published , available) values('The Fellow
 insert into book(title , author , year_published , available) values('The Lion, the Witch and the Wardrobe','C. S. Lewis',1950,true);
 insert into book(title , author , year_published , available) values('The Colour of Magic','Terry Pratchett',1983,true);
 insert into book(title , author , year_published , available) values('Assassin’s Apprentice','Robin Hobb',1995,true);
-insert into book(title , author , year_published, available) values('The Lies of Locke Lamora','Scott Lynch',2006,true);
+insert into book(title , author , year_published , available) values('The Lies of Locke Lamora','Scott Lynch',2006,true);

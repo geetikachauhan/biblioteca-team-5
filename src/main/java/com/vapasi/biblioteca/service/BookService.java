@@ -24,18 +24,27 @@ public class BookService {
         List<BookResponse> allBooksResponse = new ArrayList<>();
         allBooks.stream()
                 .filter(this::isBookAvailable)
-                .forEach(book -> allBooksResponse.add(new BookResponse(book.getTitle(),book.getAuthor(),book.getYearPublished())));
+                .forEach(book -> allBooksResponse.add(new BookResponse(book.getTitle(), book.getAuthor(), book.getYearPublished())));
         return allBooksResponse;
     }
 
     public Boolean checkoutBook(String bookTitle) {
         Book book = findBookByTitle(bookTitle);
         if (isBookAvailable(book)) {
-            bookRepository.save(new Book(book.getId(), book.getTitle(),book.getAuthor(),book.getYearPublished(), false));
+            bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), false));
             return true;
         }
         return false;
 
+    }
+
+    public boolean returnBook(String bookTitle) {
+        Book book = findBookByTitle(bookTitle);
+        if (book != null && !isBookAvailable(book)) {
+            bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), true));
+            return true;
+        }
+        return false;
     }
 
     public Book findBookByTitle(String bookTitle) {
@@ -44,14 +53,5 @@ public class BookService {
 
     public boolean isBookAvailable(Book book) {
         return (book != null && book.isAvailable());
-    }
-
-    public boolean returnBook(String bookTitle) {
-        Book book = findBookByTitle(bookTitle);
-        if (!isBookAvailable(book) && book != null) {
-            bookRepository.save(new Book(book.getId(), book.getTitle(),book.getAuthor(),book.getYearPublished(), true));
-            return true;
-        }
-        return false;
     }
 }

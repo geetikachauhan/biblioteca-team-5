@@ -15,14 +15,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 class WelcomeControllerTest {
 
-    static final String WELCOME_MESSAGE = "Hello, Welcome to Biblioteca !";
+    private final String WELCOME_MESSAGE = "Hello, Welcome to Biblioteca !";
+    private final String WELCOME_URL = "/welcome";
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     void shouldShowWelcomeMessageWhenHitDefaultUrl() throws Exception {
-        mockMvc.perform(get("/welcome"))
+        mockMvc.perform(get(WELCOME_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().string(WELCOME_MESSAGE));
     }

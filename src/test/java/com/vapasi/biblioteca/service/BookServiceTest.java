@@ -27,12 +27,12 @@ class BookServiceTest {
     BookService bookService;
 
 
-    private final String BOOK_TITLE = "The Fellowship of the Ring";
+    private final String EXISTING_BOOK_TITLE = "The Fellowship of the Ring";
     private final String BOOK_AUTHOR = "J. R. R. Tolkien";
     private final Integer BOOK_YEAR = 1954;
-    private final Book AVAILABLE_BOOK = new Book(1, BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, true);
-    private final Book UNAVAILABLE_BOOK = new Book(1, BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, false);
-    private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter", false);
+    private final Book AVAILABLE_BOOK = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, true);
+    private final Book UNAVAILABLE_BOOK = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, false);
+    private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter", "JK Rowling" , 1997,  false);
 
     @Test
     void shouldReturnListAvailableOfBooks() {
@@ -49,24 +49,22 @@ class BookServiceTest {
 
     @Test
     void shouldReturnTrueForExistingAvailableBooks() {
-        when(bookRepository.findByTitle(BOOK_TITLE)).thenReturn(AVAILABLE_BOOK);
-        Book book = bookRepository.findByTitle(BOOK_TITLE);
-        System.out.println(book);
+        when(bookRepository.findByTitle(EXISTING_BOOK_TITLE)).thenReturn(AVAILABLE_BOOK);
+        Book book = bookRepository.findByTitle(EXISTING_BOOK_TITLE);
         assertTrue(bookService.isBookAvailable(book));
     }
 
     @Test
     void shouldReturnFalseForNonExistingBooks() {
-        when(bookRepository.findByTitle(BOOK_TITLE)).thenReturn(null);
-        Book book = bookRepository.findByTitle(BOOK_TITLE);
+        when(bookRepository.findByTitle(EXISTING_BOOK_TITLE)).thenReturn(null);
+        Book book = bookRepository.findByTitle(EXISTING_BOOK_TITLE);
         assertFalse(bookService.isBookAvailable(book));
     }
 
     @Test
     void shouldReturnFalseForExistingUnAvailableBooks() {
-        when(bookRepository.findByTitle(BOOK_TITLE)).thenReturn(UNAVAILABLE_BOOK);
-        Book book = bookRepository.findByTitle(BOOK_TITLE);
-        System.out.println(book);
+        when(bookRepository.findByTitle(EXISTING_BOOK_TITLE)).thenReturn(UNAVAILABLE_BOOK);
+        Book book = bookRepository.findByTitle(EXISTING_BOOK_TITLE);
         assertFalse(bookService.isBookAvailable(book));
     }
 
@@ -75,7 +73,7 @@ class BookServiceTest {
     void shouldCheckoutExistingBook() {
         Book book = AVAILABLE_BOOK;
         Book checkOutBook = new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), false);
-        when(bookRepository.findByTitle(BOOK_TITLE)).thenReturn(book);
+        when(bookRepository.findByTitle(EXISTING_BOOK_TITLE)).thenReturn(book);
         when(bookRepository.save(any())).thenReturn(checkOutBook);
         assertTrue(bookService.checkoutBook(book.getTitle()));
 
@@ -98,7 +96,7 @@ class BookServiceTest {
     @Test
     void shouldFindTheExistingBookByTitle() {
         Book book = AVAILABLE_BOOK;
-        when(bookRepository.findByTitle(BOOK_TITLE)).thenReturn(book);
+        when(bookRepository.findByTitle(EXISTING_BOOK_TITLE)).thenReturn(book);
         assertEquals(book, bookService.findBookByTitle(book.getTitle()));
 
     }
@@ -113,7 +111,7 @@ class BookServiceTest {
     @Test
     void shouldNotReturnExistingBookAvailable() {
         Book book = AVAILABLE_BOOK;
-        when(bookRepository.findByTitle(BOOK_TITLE)).thenReturn(book);
+        when(bookRepository.findByTitle(EXISTING_BOOK_TITLE)).thenReturn(book);
         assertFalse(bookService.returnBook(book.getTitle()));
     }
 

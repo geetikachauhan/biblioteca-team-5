@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static com.vapasi.biblioteca.controller.WelcomeControllerTest.WELCOME_MESSAGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -16,10 +15,12 @@ class WelcomeControllerITTest {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
+    private final String WELCOME_MESSAGE = "Hello, Welcome to Biblioteca !";
+    private final String WELCOME_URL = "/welcome";
 
     @Test
     void shouldDisplayWelcomeMessage() {
-        String response = testRestTemplate.getForObject("/welcome/" , String.class);
+        String response = testRestTemplate.getForObject(WELCOME_URL , String.class);
         assertEquals( WELCOME_MESSAGE, response);
     }
 }

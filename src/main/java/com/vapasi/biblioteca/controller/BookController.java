@@ -19,7 +19,6 @@ import java.util.List;
 public class BookController {
 
     @Autowired
-
     private final BookService bookService;
 
     public BookController(BookService bookService) {
@@ -32,7 +31,6 @@ public class BookController {
     @Value("${checkout.unsuccessful}")
     private String checkoutUnSuccessMessage;
 
-
     @Value("${return.success}")
     private String returnSuccessMessage;
 
@@ -43,33 +41,32 @@ public class BookController {
 
     @GetMapping("")
     public ResponseEntity<List<BookResponse>> listBooks() {
-        logger.info("[Books-List-Action] Guest : " + new Timestamp(System.currentTimeMillis() ));
+        logger.info("[Books-List-Action] Guest : " + new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok().body(bookService.listBooks());
     }
 
 
     @PutMapping("/{title}/checkout")
     public ResponseEntity<String> checkoutBook(@PathVariable("title") String title) {
-        String checkoutStatus ="Unsuccess";
-        String message=checkoutUnSuccessMessage;
-        if(bookService.checkoutBook(title)){
-            checkoutStatus ="Success";
-            message=checkoutSuccessMessage;
-       }
-        logger.info("[Books-Checkout-Action] Guest  BookTitle:" + title + "   "+ new Timestamp(System.currentTimeMillis()) + "Checkout Status: " + checkoutStatus );
-
+        String checkoutStatus = "Unsuccess";
+        String message = checkoutUnSuccessMessage;
+        if (bookService.checkoutBook(title)) {
+            checkoutStatus = "Success";
+            message = checkoutSuccessMessage;
+        }
+        logger.info("[Books-Checkout-Action] Guest  BookTitle:" + title + "   " + new Timestamp(System.currentTimeMillis()) + "Checkout Status: " + checkoutStatus);
         return ResponseEntity.ok().body(message);
     }
 
     @PutMapping("/{title}/return")
     public ResponseEntity<String> returnBook(@PathVariable("title") String title) {
-        String returnStatus ="Unsuccess";
-        String message=returnUnSuccessMessage;
-        if(bookService.returnBook(title)){
-            message=returnSuccessMessage;
-            returnStatus ="Success";
+        String returnStatus = "Unsuccess";
+        String message = returnUnSuccessMessage;
+        if (bookService.returnBook(title)) {
+            message = returnSuccessMessage;
+            returnStatus = "Success";
         }
-        logger.info("[Books-Return-Action] Guest  BookTitle:" + title + "   "+ new Timestamp(System.currentTimeMillis()) + "Return Status: " + returnStatus );
+        logger.info("[Books-Return-Action] Guest  BookTitle:" + title + "   " + new Timestamp(System.currentTimeMillis()) + "Return Status: " + returnStatus);
         return ResponseEntity.ok().body(message);
     }
 

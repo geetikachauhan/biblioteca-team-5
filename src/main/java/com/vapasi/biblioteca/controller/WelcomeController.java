@@ -7,9 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.sql.Timestamp;
-
 
 @RestController
 @RequestMapping("/welcome")
@@ -22,7 +20,7 @@ public class WelcomeController {
 
     @GetMapping
     public ResponseEntity<String> getWelcomeMessage() {
-        logger.info("[Welcome-Action] Guest : " + new Timestamp(System.currentTimeMillis() ));
+        logger.info("[Welcome-Action] Guest : " + new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.ok().body(welcomeMessage);
     }
 

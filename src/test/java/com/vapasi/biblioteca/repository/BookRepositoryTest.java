@@ -17,11 +17,10 @@ class BookRepositoryTest {
 
     @Autowired
     BookRepository bookRepository;
-    private final String BOOK_TITLE = "The Fellowship of the Ring";
-    private final String BOOK_AUTHOR = "J. R. R. Tolkien";
-    private final Integer YEAR_PUBLISHED = 1954;
-    private final Book AVAILABLE_BOOK = new Book(2, BOOK_TITLE, BOOK_AUTHOR, 1954, true);
-    private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter","J. K. Rowling",1997, false);
+    private final String EXISTING_BOOK_TITLE = "The Fellowship of the Ring";
+    private final String NON_EXISTING_BOOK_TITLE = "Harry Potter";
+    private final Book AVAILABLE_BOOK = new Book(2, EXISTING_BOOK_TITLE, "J. R. R. Tolkien", 1954, true);
+
 
 
     @Test
@@ -33,21 +32,21 @@ class BookRepositoryTest {
     @Test
     void shouldUpdateTheExistingBook() {
 
-        Book existingBook = bookRepository.findByTitle(BOOK_TITLE);
+        Book existingBook = bookRepository.findByTitle(EXISTING_BOOK_TITLE);
         bookRepository.save(new Book(existingBook.getId(), existingBook.getTitle(), existingBook.getAuthor(),existingBook.getYearPublished(), false));
-        assertFalse(bookRepository.findByTitle(BOOK_TITLE).isAvailable());
+        assertFalse(bookRepository.findByTitle(EXISTING_BOOK_TITLE).isAvailable());
 
     }
 
     @Test
     void shouldReturnTheExistingBookByTitle() {
-        Book existingBook = bookRepository.findByTitle(BOOK_TITLE);
+        Book existingBook = bookRepository.findByTitle(EXISTING_BOOK_TITLE);
         assertEquals(AVAILABLE_BOOK, existingBook);
     }
 
     @Test
     void shouldReturnNullForTheNonExistingBook() {
-        Book nonExistingBook = bookRepository.findByTitle(NON_EXISTING_BOOK.getTitle());
+        Book nonExistingBook = bookRepository.findByTitle(NON_EXISTING_BOOK_TITLE);
         assertNull(nonExistingBook);
     }
 
