@@ -19,8 +19,9 @@ class BookRepositoryTest {
     BookRepository bookRepository;
     private final String BOOK_TITLE = "The Fellowship of the Ring";
     private final String BOOK_AUTHOR = "J. R. R. Tolkien";
-    private final Book AVAILABLE_BOOK = new Book(2, BOOK_TITLE, BOOK_AUTHOR, true);
-    private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter", false);
+    private final Integer YEAR_PUBLISHED = 1954;
+    private final Book AVAILABLE_BOOK = new Book(2, BOOK_TITLE, BOOK_AUTHOR, 1954, true);
+    private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter","J. K. Rowling",1997, false);
 
 
     @Test
@@ -33,7 +34,7 @@ class BookRepositoryTest {
     void shouldUpdateTheExistingBook() {
 
         Book existingBook = bookRepository.findByTitle(BOOK_TITLE);
-        bookRepository.save(new Book(existingBook.getId(), existingBook.getTitle(), false));
+        bookRepository.save(new Book(existingBook.getId(), existingBook.getTitle(), existingBook.getAuthor(),existingBook.getYearPublished(), false));
         assertFalse(bookRepository.findByTitle(BOOK_TITLE).isAvailable());
 
     }

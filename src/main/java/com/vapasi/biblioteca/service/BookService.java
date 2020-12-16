@@ -24,14 +24,14 @@ public class BookService {
         List<BookResponse> allBooksResponse = new ArrayList<>();
         allBooks.stream()
                 .filter(this::isBookAvailable)
-                .forEach(book -> allBooksResponse.add(new BookResponse(book.getTitle(),book.getAuthor())));
+                .forEach(book -> allBooksResponse.add(new BookResponse(book.getTitle(),book.getAuthor(),book.getYearPublished())));
         return allBooksResponse;
     }
 
     public Boolean checkoutBook(String bookTitle) {
         Book book = findBookByTitle(bookTitle);
         if (isBookAvailable(book)) {
-            bookRepository.save(new Book(book.getId(), book.getTitle(),book.getAuthor(), false));
+            bookRepository.save(new Book(book.getId(), book.getTitle(),book.getAuthor(),book.getYearPublished(), false));
             return true;
         }
         return false;
@@ -49,7 +49,7 @@ public class BookService {
     public boolean returnBook(String bookTitle) {
         Book book = findBookByTitle(bookTitle);
         if (!isBookAvailable(book) && book != null) {
-            bookRepository.save(new Book(book.getId(), book.getTitle(), true));
+            bookRepository.save(new Book(book.getId(), book.getTitle(),book.getAuthor(),book.getYearPublished(), true));
             return true;
         }
         return false;

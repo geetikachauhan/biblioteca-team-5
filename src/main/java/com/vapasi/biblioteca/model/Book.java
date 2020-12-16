@@ -18,7 +18,7 @@ public class Book {
     private String title;
 
     private String author;
-
+    private Integer yearPublished;
     private Boolean available;
 
     public Book() {
@@ -31,21 +31,18 @@ public class Book {
         this.available = isAvailable;
     }
 
-    public Book(Integer id, String title, String author, Boolean available) {
+    public Book(Integer id, String title, String author, Integer yearPublished, Boolean available) {
         this.id = id;
         this.title = title;
         this.author = author;
+        this.yearPublished = yearPublished;
         this.available = available;
-    }
-
-    public Book(String title, String author) {
-        this.title = title;
-        this.author = author;
     }
 
     public Integer getId() {
         return id;
     }
+
 
     public String getTitle() {
         return title;
@@ -53,6 +50,10 @@ public class Book {
 
     public String getAuthor() {
         return author;
+    }
+
+    public Integer getYearPublished() {
+        return yearPublished;
     }
 
     public Boolean isAvailable() {
@@ -65,6 +66,7 @@ public class Book {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
+                ", yearPublished=" + yearPublished +
                 ", available=" + available +
                 '}';
     }
@@ -74,11 +76,11 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(author, book.author) && Objects.equals(available, book.available);
+        return Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(author, book.author) && Objects.equals(yearPublished, book.yearPublished) && Objects.equals(available, book.available);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, author, available);
+        return Objects.hash(id, title, author, yearPublished, available);
     }
 }

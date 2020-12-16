@@ -6,11 +6,12 @@ public class BookResponse {
 
     private String title;
     private String author;
+    private Integer yearPublished;
 
-
-    public BookResponse(String title, String author) {
+    public BookResponse(String title, String author, Integer yearPublished) {
         this.title = title;
         this.author = author;
+        this.yearPublished = yearPublished;
     }
 
     public String getTitle() {
@@ -19,6 +20,10 @@ public class BookResponse {
 
     public String getAuthor() {
         return author;
+    }
+
+    public Integer getYearPublished() {
+        return yearPublished;
     }
 
     @Override

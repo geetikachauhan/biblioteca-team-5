@@ -31,26 +31,28 @@ class BookControllerTest {
 
     @MockBean
     private BookService bookService;
-    private final String BOOK_TITLE = "The Fellowship of the Ring";
-    private final String CHECKOUT_SUCCESS="Thank you! Enjoy the book";
-    private final String CHECKOUT_UNSUCCESSFULL="That book is not available.";
-    private final String RETURN_SUCCESS="Thank you for returning the book";
-    private final String RETURN_UNSUCCESSFULL="That is not a valid book to return";
+    private final String CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
+    private final String CHECKOUT_UNSUCCESSFULL = "That book is not available.";
+    private final String RETURN_SUCCESS = "Thank you for returning the book";
+    private final String RETURN_UNSUCCESSFULL = "That is not a valid book to return";
 
     @Test
     void shouldListBooks() throws Exception {
-        when(bookService.listBooks()).thenReturn(Arrays.asList(new BookResponse("Harry Potter","J. K. Rowling"), new BookResponse( "The Colour of Magic","Terry Pratchett")));
+        when(bookService.listBooks()).thenReturn(Arrays.asList(new BookResponse("Harry Potter", "J. K. Rowling",1997), new BookResponse("The Colour of Magic", "Terry Pratchett",1983)));
 
         mockMvc.perform(get("/books")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{" +
                         "    \"title\": \"Harry Potter\"," +
-                        "    \"author\": \"J. K. Rowling\"" +
+                        "    \"author\": \"J. K. Rowling\"," +
+                        "    \"yearPublished\": 1997" +
+
                         "  }," +
                         "  {" +
                         "    \"title\": \"The Colour of Magic\"," +
-                        "    \"author\": \"Terry Pratchett\"" +
+                        "    \"author\": \"Terry Pratchett\"," +
+                        "    \"yearPublished\": 1983" +
                         "  }]"));
 
     }
