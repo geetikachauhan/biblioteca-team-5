@@ -31,11 +31,11 @@ public class BookResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BookResponse that = (BookResponse) o;
-        return Objects.equals(title, that.title) && Objects.equals(author, that.author);
+        return Objects.equals(title, that.title) && Objects.equals(author, that.author) && Objects.equals(yearPublished, that.yearPublished);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, author);
+        return Objects.hash(title, author, yearPublished);
     }
 }
