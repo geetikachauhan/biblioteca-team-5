@@ -79,7 +79,7 @@ public class BookService {
     }
 
     public List<Book> findBookByTitle(String bookTitle) {
-        return bookRepository.findByTitle(bookTitle);
+        return bookRepository.findByTitleOrderByIsbnAsc(bookTitle);
     }
 
     public boolean isBookAvailable(Book book) {

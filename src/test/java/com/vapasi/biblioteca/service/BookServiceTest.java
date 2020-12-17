@@ -65,7 +65,7 @@ class BookServiceTest {
         Book book = AVAILABLE_BOOK;
         List<Book> expectedBookList = Arrays.asList(AVAILABLE_BOOK , AVAILABLE_BOOK_COPY);
         Book checkOutBook = new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn() ,false);
-        when(bookRepository.findByTitle(EXISTING_BOOK_TITLE)).thenReturn(expectedBookList);
+        when(bookRepository.findByTitleOrderByIsbnAsc(EXISTING_BOOK_TITLE)).thenReturn(expectedBookList);
         when(bookRepository.save(any())).thenReturn(checkOutBook);
         assertEquals(MESSAGE_CHECKOUT_SUCCESS , bookService.checkoutBook(book.getTitle()));
 
@@ -74,7 +74,7 @@ class BookServiceTest {
     @Test
     void shouldNotCheckoutBooksNotInLibrary() {
         Book book = NON_EXISTING_BOOK;
-        when(bookRepository.findByTitle(any())).thenReturn(null);
+        when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(null);
         assertEquals(MESSAGE_CHECKOUT_UNSUCCESSFULL , bookService.checkoutBook(book.getTitle()));
     }
 
@@ -82,7 +82,7 @@ class BookServiceTest {
     void shouldNotCheckoutAlreadyCheckedOutBook() {
         Book book = CHECKEDOUT_BOOK;
         List<Book> expectedBookList = Arrays.asList(CHECKEDOUT_BOOK , CHECKEDOUT_BOOK_COPY);
-        when(bookRepository.findByTitle(any())).thenReturn(expectedBookList);
+        when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(expectedBookList);
         assertEquals(MESSAGE_CHECKEDOUTBOOK , bookService.checkoutBook(book.getTitle()));
     }
 
@@ -91,7 +91,7 @@ class BookServiceTest {
         Book book = CHECKEDOUT_BOOK;
         List<Book> expectedBookList = Arrays.asList(CHECKEDOUT_BOOK , CHECKEDOUT_BOOK_COPY);
         Book returnedBook = new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn() ,true);
-        when(bookRepository.findByTitle(any())).thenReturn(expectedBookList);
+        when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(expectedBookList);
         when(bookRepository.save(any())).thenReturn(returnedBook);
         assertEquals(MESSAGE_RETURN_SUCCESS , bookService.returnBook(book.getTitle()));
     }
@@ -101,14 +101,14 @@ class BookServiceTest {
     void shouldNotReturnAlreadyReturnedBook() {
         Book book = AVAILABLE_BOOK;
         List<Book> expectedBookList = Arrays.asList(AVAILABLE_BOOK , AVAILABLE_BOOK_COPY);
-        when(bookRepository.findByTitle(any())).thenReturn(expectedBookList);
+        when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(expectedBookList);
         assertEquals(MESSAGE_RETURN_RETURNEDBOOK , bookService.returnBook(book.getTitle()));
     }
 
     @Test
     void shouldNotReturnBooksNotInLibrary() {
         Book book = NON_EXISTING_BOOK;
-        when(bookRepository.findByTitle(any())).thenReturn(null);
+        when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(null);
         assertEquals(MESSAGE_RETURN_UNSUCCESSFULL , bookService.returnBook(book.getTitle()));
     }
 
@@ -120,7 +120,7 @@ class BookServiceTest {
 
     @Test
     void shouldReturnNullForBooksNotInLibrary() {
-         assertFalse(bookService.isBookAvailable(null));
+        assertFalse(bookService.isBookAvailable(null));
     }
 
     @Test
@@ -131,7 +131,7 @@ class BookServiceTest {
     @Test
     void shouldFindTheExistingBookByTitle() {
         List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter", "J. K. Rowling", 1997, "978-1-60309-025-5" ,false), new Book(2, "Ponniyin Selvan", "Kalki Krishnamurthy", 1950 ,"978-1-60309-400-5", true));
-        when(bookRepository.findByTitle(EXISTING_BOOK_TITLE)).thenReturn(expectedBookList);
+        when(bookRepository.findByTitleOrderByIsbnAsc(EXISTING_BOOK_TITLE)).thenReturn(expectedBookList);
         assertEquals(2, bookService.findBookByTitle(EXISTING_BOOK_TITLE).size());
 
     }
