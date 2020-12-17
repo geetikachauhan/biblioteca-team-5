@@ -33,8 +33,7 @@ jobs:
           JDBC_DATABASE_URL: jdbc:postgresql://localhost:5432/
           JDBC_DATABASE_USERNAME: postgres
           JDBC_DATABASE_PASSWORD: postgres
-          SPRING_JPA_DATABASE-PLATFORM: postgres
-          SPRING_DATASOURCE_INITIALIZATION_MODE: always
+          SPRING_PROFILES_ACTIVE: local
   deploy:
     runs-on: ubuntu-latest
     needs: build
