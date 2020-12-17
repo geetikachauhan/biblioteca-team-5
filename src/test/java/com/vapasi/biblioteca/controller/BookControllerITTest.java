@@ -21,17 +21,21 @@ class BookControllerITTest {
     HttpEntity<String> entity;
     Long id;
 
-    private final String CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
-    private final String CHECKOUT_UNSUCCESSFULL = "That book is not available.";
-    private final String RETURN_SUCCESS = "Thank you for returning the book";
-    private final String RETURN_UNSUCCESSFULL = "That is not a valid book to return";
+    private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
+    private final String MESSAGE_CHECKEDOUTBOOK = "That book has been checked out already.";
+    private final String MESSAGE_CHECKOUT_UNSUCCESSFULL="That book is not available in Library.";
+    private final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
+    private final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
+    private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
 
     private final String BOOKS_LIST_URL = "/books";
     private final String CHECKOUT_SUCCESS_URL = "/books/A Game of Thrones/checkout";
     private final String CHECKOUT_UNSUCCESS_URL = "/books/Harry Potter/checkout";
-    private final String RETURN_SUCCESS_URL = "/books/A Game of Thrones/return";
-    private final String RETURN_UNSUCCESS_URL = "/books/Harry Potter/return";
+    private final String CHECKOUT_ALREADYCHECKEDOUT_URL = "/books/The Colour of Magic/checkout";
 
+    private final String RETURN_SUCCESS_URL = "/books/The Colour of Magic/return";
+    private final String RETURN_UNSUCCESS_URL = "/books/Harry Potter/return";
+    private final String RETURN_ALREADYRETURNED_URL = "/books/A Game of Thrones/return";
 
 
 
@@ -53,24 +57,24 @@ class BookControllerITTest {
     @Test
     void shouldCheckoutBook() {
         ResponseEntity<String> response = this.restTemplate.exchange(CHECKOUT_SUCCESS_URL , HttpMethod.PUT, entity, String.class, id);
-        assertEquals(CHECKOUT_SUCCESS, response.getBody());
+        assertEquals(MESSAGE_CHECKOUT_SUCCESS, response.getBody());
     }
 
-    @Test
-    void shouldNotCheckoutBook() {
+   @Test
+    void shouldNotCheckoutBooksNotInTheLibrary() {
         ResponseEntity<String> response = this.restTemplate.exchange(CHECKOUT_UNSUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
-        assertEquals(CHECKOUT_UNSUCCESSFULL, response.getBody());
+        assertEquals(MESSAGE_CHECKOUT_UNSUCCESSFULL, response.getBody());
     }
 
     @Test
     void shouldReturnBook() {
         ResponseEntity<String> response = this.restTemplate.exchange(RETURN_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
-        assertEquals(RETURN_SUCCESS, response.getBody());
+        assertEquals(MESSAGE_RETURN_SUCCESS, response.getBody());
     }
 
-    @Test
-    void shouldNotReturnBook() {
+   @Test
+    void shouldNotReturnBookNotInTheLibrary() {
         ResponseEntity<String> response = this.restTemplate.exchange(RETURN_UNSUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
-        assertEquals(RETURN_UNSUCCESSFULL, response.getBody());
+        assertEquals(MESSAGE_RETURN_UNSUCCESSFULL, response.getBody());
     }
 }

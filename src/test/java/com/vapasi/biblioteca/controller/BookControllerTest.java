@@ -31,16 +31,21 @@ class BookControllerTest {
 
     @MockBean
     private BookService bookService;
-    private final String CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
-    private final String CHECKOUT_UNSUCCESSFULL = "That book is not available.";
-    private final String RETURN_SUCCESS = "Thank you for returning the book";
-    private final String RETURN_UNSUCCESSFULL = "That is not a valid book to return";
+    private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
+    private final String MESSAGE_CHECKEDOUTBOOK = "That book has been checked out already.";
+    private final String MESSAGE_CHECKOUT_UNSUCCESSFULL="That book is not available in Library.";
+    private final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
+    private final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
+    private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
 
     private final String BOOKS_LIST_URL = "/books";
     private final String CHECKOUT_SUCCESS_URL = "/books/A Game of Thrones/checkout";
     private final String CHECKOUT_UNSUCCESS_URL = "/books/Harry Potter/checkout";
-    private final String RETURN_SUCCESS_URL = "/books/A Game of Thrones/return";
+    private final String CHECKOUT_ALREADYCHECKEDOUT_URL = "/books/The Colour of Magic/checkout";
+
+    private final String RETURN_SUCCESS_URL = "/books/The Colour of Magic/return";
     private final String RETURN_UNSUCCESS_URL = "/books/Harry Potter/return";
+    private final String RETURN_ALREADYRETURNED_URL = "/books/A Game of Thrones/return";
 
     @Test
     void shouldListBooks() throws Exception {
@@ -70,42 +75,63 @@ class BookControllerTest {
 
     @Test
     void shouldCheckOutExistingBook() throws Exception {
-        when(bookService.checkoutBook(any())).thenReturn(true);
+        when(bookService.checkoutBook(any())).thenReturn(MESSAGE_CHECKOUT_SUCCESS);
         mockMvc.perform(put(CHECKOUT_SUCCESS_URL)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(CHECKOUT_SUCCESS));
+                .andExpect(content().string(MESSAGE_CHECKOUT_SUCCESS));
     }
 
     @Test
-    void shouldNotCheckOutUnAvailableBook() throws Exception {
-        when(bookService.checkoutBook(any())).thenReturn(false);
+    void shouldNotCheckOutAlreadyCheckedOutBook() throws Exception {
+        when(bookService.checkoutBook(any())).thenReturn(MESSAGE_CHECKEDOUTBOOK);
+        mockMvc.perform(put(CHECKOUT_ALREADYCHECKEDOUT_URL)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(MESSAGE_CHECKEDOUTBOOK));
+
+
+    }
+    @Test
+    void shouldNotCheckOutTheBookNotInLibrary() throws Exception {
+        when(bookService.checkoutBook(any())).thenReturn(MESSAGE_CHECKOUT_UNSUCCESSFULL);
         mockMvc.perform(put(CHECKOUT_UNSUCCESS_URL)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(CHECKOUT_UNSUCCESSFULL));
+                .andExpect(content().string(MESSAGE_CHECKOUT_UNSUCCESSFULL));
 
 
     }
 
     @Test
     void shouldReturnExistingBook() throws Exception {
-        when(bookService.returnBook(any())).thenReturn(true);
+        when(bookService.returnBook(any())).thenReturn(MESSAGE_RETURN_SUCCESS);
         mockMvc.perform(put(RETURN_SUCCESS_URL)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(RETURN_SUCCESS));
+                .andExpect(content().string(MESSAGE_RETURN_SUCCESS));
     }
 
     @Test
-    void shouldNotReturnNonExistingBook() throws Exception {
-        when(bookService.returnBook(any())).thenReturn(false);
-        mockMvc.perform(put(RETURN_UNSUCCESS_URL)
+    void shouldNotReturnTheAlreadyReturnedBook() throws Exception {
+        when(bookService.returnBook(any())).thenReturn(MESSAGE_RETURN_RETURNEDBOOK);
+        mockMvc.perform(put(RETURN_ALREADYRETURNED_URL)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(RETURN_UNSUCCESSFULL));
+                .andExpect(content().string(MESSAGE_RETURN_RETURNEDBOOK));
 
 
     }
+    @Test
+    void shouldNotReturnTheBooksNotInTheLibrary() throws Exception {
+        when(bookService.returnBook(any())).thenReturn(MESSAGE_RETURN_UNSUCCESSFULL);
+        mockMvc.perform(put(RETURN_UNSUCCESS_URL)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(MESSAGE_RETURN_UNSUCCESSFULL));
+
+
+    }
+
 
 }

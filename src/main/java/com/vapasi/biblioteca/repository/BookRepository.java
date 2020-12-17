@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
-    Book findByTitle(String title);
+    List<Book> findByTitle(String title);
     List<Book> findAllByOrderByTitleAsc();
 }

@@ -4,16 +4,26 @@ import com.vapasi.biblioteca.model.Book;
 import com.vapasi.biblioteca.repository.BookRepository;
 import com.vapasi.biblioteca.response.BookResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 public class BookService {
     @Autowired
     private BookRepository bookRepository;
+
+    private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
+    private final String MESSAGE_CHECKEDOUTBOOK = "That book has been checked out already.";
+    private final String MESSAGE_CHECKOUT_UNSUCCESSFULL="That book is not available in Library.";
+    private final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
+    private final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
+    private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
+
 
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
@@ -24,30 +34,51 @@ public class BookService {
         List<BookResponse> allBooksResponse = new ArrayList<>();
         allBooks.stream()
                 .filter(this::isBookAvailable)
-                .forEach(book -> allBooksResponse.add(new BookResponse(book.getTitle(), book.getAuthor(), book.getYearPublished() ,book.getIsbn())));
+                .forEach(book -> allBooksResponse.add(new BookResponse(book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn())));
         return allBooksResponse;
     }
 
-    public Boolean checkoutBook(String bookTitle) {
-        Book book = findBookByTitle(bookTitle);
-        if (isBookAvailable(book)) {
-            bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn(), false));
-            return true;
-        }
-        return false;
+    public String checkoutBook(String bookTitle) {
+        List<Book> bookList = findBookByTitle(bookTitle);
+        if (bookList==null || bookList.size() == 0)
+            return MESSAGE_CHECKOUT_UNSUCCESSFULL;
+        Book book = firstAvailableBookForCheckout(bookList);
+        if (book == null)
+            return MESSAGE_CHECKEDOUTBOOK;
 
+        bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn(), false));
+        return MESSAGE_CHECKOUT_SUCCESS;
     }
 
-    public boolean returnBook(String bookTitle) {
-        Book book = findBookByTitle(bookTitle);
-        if (book != null && !isBookAvailable(book)) {
-            bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(),book.getIsbn(),  true));
-            return true;
-        }
-        return false;
+    public String returnBook(String bookTitle) {
+        List<Book> bookList = findBookByTitle(bookTitle);
+        if (bookList ==null || bookList.size() == 0)
+            return MESSAGE_RETURN_UNSUCCESSFULL;
+        Book book = firstAvailableBookForReturn(bookList);
+        if (book == null)
+            return MESSAGE_RETURN_RETURNEDBOOK;
+
+        bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn(), true));
+        return MESSAGE_RETURN_SUCCESS;
     }
 
-    public Book findBookByTitle(String bookTitle) {
+    public Book firstAvailableBookForCheckout(List<Book> bookList) {
+        for (Book book : bookList) {
+            if (book.isAvailable())
+                return book;
+        }
+        return null;
+    }
+
+    public Book firstAvailableBookForReturn(List<Book> bookList) {
+        for (Book book : bookList) {
+            if (!book.isAvailable())
+                return book;
+        }
+        return null;
+    }
+
+    public List<Book> findBookByTitle(String bookTitle) {
         return bookRepository.findByTitle(bookTitle);
     }
 

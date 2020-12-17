@@ -9,7 +9,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
@@ -19,35 +20,35 @@ class BookRepositoryTest {
     BookRepository bookRepository;
     private final String EXISTING_BOOK_TITLE = "The Fellowship of the Ring";
     private final String NON_EXISTING_BOOK_TITLE = "Harry Potter";
-    private final Book AVAILABLE_BOOK = new Book(2, EXISTING_BOOK_TITLE, "J. R. R. Tolkien", 1954, "978-1-60309-047-6" ,true);
-
+    private final Book AVAILABLE_BOOK = new Book(2, EXISTING_BOOK_TITLE, "J. R. R. Tolkien", 1954, "978-1-60309-047-6", true);
 
 
     @Test
     void shouldListTheBooksInAlphabeticalOrder() {
         List<Book> bookList = bookRepository.findAllByOrderByTitleAsc();
-        assertEquals(6, bookList.size());
+        assertEquals(8, bookList.size());
     }
 
     @Test
     void shouldUpdateTheExistingBook() {
 
-        Book existingBook = bookRepository.findByTitle(EXISTING_BOOK_TITLE);
-        bookRepository.save(new Book(existingBook.getId(), existingBook.getTitle(), existingBook.getAuthor(),existingBook.getYearPublished(), existingBook.getIsbn() , false));
-        assertFalse(bookRepository.findByTitle(EXISTING_BOOK_TITLE).isAvailable());
+        List<Book> existingBookList = bookRepository.findByTitle(EXISTING_BOOK_TITLE);
+        Book existingBook = existingBookList.get(0);
+        bookRepository.save(new Book(existingBook.getId(), existingBook.getTitle(), existingBook.getAuthor(), existingBook.getYearPublished(), existingBook.getIsbn(), false));
+        assertFalse(bookRepository.findByTitle(EXISTING_BOOK_TITLE).get(0).isAvailable());
 
     }
 
     @Test
     void shouldReturnTheExistingBookByTitle() {
-        Book existingBook = bookRepository.findByTitle(EXISTING_BOOK_TITLE);
-        assertEquals(AVAILABLE_BOOK, existingBook);
+        List<Book> existingBookList = bookRepository.findByTitle(EXISTING_BOOK_TITLE);
+        assertEquals(2, existingBookList.size());
     }
 
     @Test
     void shouldReturnNullForTheNonExistingBook() {
-        Book nonExistingBook = bookRepository.findByTitle(NON_EXISTING_BOOK_TITLE);
-        assertNull(nonExistingBook);
+        List<Book> nonExistingBook = bookRepository.findByTitle(NON_EXISTING_BOOK_TITLE);
+        assertEquals(0, nonExistingBook.size());
     }
 
 
