@@ -24,7 +24,25 @@ As a customer, you can access their service by accessing the end points provides
 | 6 | Unsuccessful return of the book | /books/&lt;Invalid book name&gt;/return |  When the customer hits this end point, and gives an invalid book title he/she would get the message "That is not a valid book to return" |
                                         
 	
-Plugins used - 
+# Tech stack-
+
+Project configuration - Java 1.8, Junit5, Mockito, SpringBoot 2.3.7
+Build tool - gradle
+versioning tool - github
+Sonar lint - for removing code smells
+swagger - API documentation and showcase crud
+
+Database - 
+    H2-testing
+    Dec-Postgres
+     
+flywaydb - for db migrations
+
+For Continuous Integration - github actions
+For Continuous Deployment - Heroku
+
+
+
 
 
 ### Setup
