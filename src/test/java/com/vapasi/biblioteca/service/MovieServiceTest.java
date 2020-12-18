@@ -1,10 +1,7 @@
 package com.vapasi.biblioteca.service;
 
-import com.vapasi.biblioteca.model.Book;
 import com.vapasi.biblioteca.model.Movie;
-import com.vapasi.biblioteca.repository.BookRepository;
 import com.vapasi.biblioteca.repository.MovieRepository;
-import com.vapasi.biblioteca.response.BookResponse;
 import com.vapasi.biblioteca.response.MovieResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

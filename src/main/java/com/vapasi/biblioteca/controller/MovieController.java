@@ -1,6 +1,5 @@
 package com.vapasi.biblioteca.controller;
 
-import com.vapasi.biblioteca.response.BookResponse;
 import com.vapasi.biblioteca.response.MovieResponse;
 import com.vapasi.biblioteca.service.MovieService;
 import org.slf4j.Logger;

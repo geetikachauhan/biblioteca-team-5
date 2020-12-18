@@ -1,9 +1,7 @@
 package com.vapasi.biblioteca.service;
 
-import com.vapasi.biblioteca.model.Book;
 import com.vapasi.biblioteca.model.Movie;
 import com.vapasi.biblioteca.repository.MovieRepository;
-import com.vapasi.biblioteca.response.BookResponse;
 import com.vapasi.biblioteca.response.MovieResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -8,10 +8,6 @@ public class CustomerResponse {
     private String libraryNumber;
     private String password;
 
-    public CustomerResponse(){
-
-    }
-
     public CustomerResponse(String name, String libraryNumber, String password) {
         this.name = name;
         this.libraryNumber = libraryNumber;

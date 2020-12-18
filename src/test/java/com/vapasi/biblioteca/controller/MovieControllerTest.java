@@ -1,6 +1,5 @@
 package com.vapasi.biblioteca.controller;
 
-import com.vapasi.biblioteca.controller.MovieController;
 import com.vapasi.biblioteca.response.MovieResponse;
 import com.vapasi.biblioteca.service.MovieService;
 import org.junit.jupiter.api.Test;

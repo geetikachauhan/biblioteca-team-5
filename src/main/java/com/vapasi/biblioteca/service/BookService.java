@@ -4,12 +4,10 @@ import com.vapasi.biblioteca.model.Book;
 import com.vapasi.biblioteca.repository.BookRepository;
 import com.vapasi.biblioteca.response.BookResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
