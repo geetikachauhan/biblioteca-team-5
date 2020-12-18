@@ -7,5 +7,4 @@ insert into book(title , author , year_published , isbn , available) values('The
 insert into book(title , author , year_published , isbn , available) values ('A Game of Thrones','George R. R. Martin',1996,'978-1-60309-123-4',true);
 insert into book(title , author , year_published , isbn , available) values('The Fellowship of the Ring','J. R. R. Tolkien',1954,'978-1-60309-321-6',true);
 
-insert into customer(name,library_number,password) values ('Dave','124-4567','Dave@123');
-insert into customer(name,library_number,password) values ('Ava','456-5566','Ava@123');
+insert into customer(name,library_number,password) values ('test','test','test');

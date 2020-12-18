@@ -19,10 +19,10 @@ public class CustomerRepositoryTest {
     CustomerRepository customerRepository;
 
     @Test
-    public void shouldReturnAllTheUsers() {
+    public void shouldFindByLibraryNumber() {
 
-        List<Customer> customers = customerRepository.findAll();
-        assertEquals(2, customers.size());
+        Customer customer = customerRepository.findByLibraryNumber("test");
+        assertEquals("test", customer.getName());
 
     }
 }

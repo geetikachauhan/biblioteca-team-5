@@ -38,10 +38,4 @@ public class CustomerResponse {
                 Objects.equals(password, that.password);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, libraryNumber, password);
-    }
-
-
 }

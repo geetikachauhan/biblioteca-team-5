@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -26,19 +27,14 @@ class CustomerServiceTest {
     CustomerService customerService;
 
     @Test
-    void shouldReturnTheCustomerList() {
-        List<Customer> expectedCustomerList = Arrays.asList(new Customer("Dave", "124-4567", "Dave@123"),
-                new Customer("Ava", "456-5566", "Ava@123"));
-        List<CustomerResponse> expectedCustomerResponseList = new ArrayList<>();
-        expectedCustomerResponseList.add(new CustomerResponse("Dave", "124-4567", "Dave@123"));
-        expectedCustomerResponseList.add(new CustomerResponse("Ava", "456-5566", "Ava@123"));
-        when(customerRepository.findAll()).thenReturn(expectedCustomerList);
-        List<CustomerResponse> actualCustomerResponseList = customerService.customerList();
-        assertEquals(expectedCustomerResponseList, actualCustomerResponseList);
-        verify(customerRepository).findAll();
+    void shouldReturnCustomerDetails() {
+        Customer customer = new Customer("test", "test", "test");
+        when(customerRepository.findByLibraryNumber(anyString())).thenReturn(customer);
+        CustomerResponse customerResponse = new CustomerResponse(customer.getName(), customer.getLibraryNumber(), customer.getPassword());
+        assertEquals(customerResponse, customerService.customerDetails("test"));
+        verify(customerRepository).findByLibraryNumber("test");
 
 
     }
-
 
 }

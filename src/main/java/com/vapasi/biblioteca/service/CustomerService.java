@@ -24,15 +24,11 @@ public class CustomerService implements UserDetailsService {
         this.customerRepository = customerRepository;
     }
 
-    public List<CustomerResponse> customerList() {
-        List<Customer> customers = customerRepository.findAll();
-        List<CustomerResponse> customerResponses = new ArrayList<>();
-
-        customers.stream().forEach(customer -> customerResponses.add(
-                new CustomerResponse(customer.getName(), customer.getLibraryNumber(), customer.getPassword())));
-        return customerResponses;
-
-    }
+    public CustomerResponse customerDetails(String libraryNumber) {
+        Customer customer = customerRepository.findByLibraryNumber(libraryNumber);
+        CustomerResponse customerResponse = new CustomerResponse(customer.getName(), customer.getLibraryNumber(), customer.getPassword());
+        return customerResponse;
+   }
 
     @Override
     @Transactional

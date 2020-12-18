@@ -45,6 +45,7 @@ class BookControllerITTest {
         String requestBody = "";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBasicAuth("test", "test");
         entity = new HttpEntity<String>(requestBody, headers);
     }
 
@@ -62,7 +63,7 @@ class BookControllerITTest {
 
    @Test
     void shouldNotCheckoutBooksNotInTheLibrary() {
-        ResponseEntity<String> response = this.restTemplate.exchange(CHECKOUT_UNSUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
+       ResponseEntity<String> response = this.restTemplate.exchange(CHECKOUT_UNSUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
         assertEquals(MESSAGE_CHECKOUT_UNSUCCESSFULL, response.getBody());
     }
 
@@ -74,7 +75,7 @@ class BookControllerITTest {
 
    @Test
     void shouldNotReturnBookNotInTheLibrary() {
-        ResponseEntity<String> response = this.restTemplate.exchange(RETURN_UNSUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
-        assertEquals(MESSAGE_RETURN_UNSUCCESSFULL, response.getBody());
+       ResponseEntity<String> response = this.restTemplate.exchange(RETURN_UNSUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
+       assertEquals(MESSAGE_RETURN_UNSUCCESSFULL, response.getBody());
     }
 }

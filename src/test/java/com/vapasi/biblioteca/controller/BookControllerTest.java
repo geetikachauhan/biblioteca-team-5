@@ -3,19 +3,26 @@ package com.vapasi.biblioteca.controller;
 
 import com.vapasi.biblioteca.response.BookResponse;
 import com.vapasi.biblioteca.service.BookService;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -47,6 +54,7 @@ class BookControllerTest {
     private final String RETURN_UNSUCCESS_URL = "/books/Harry Potter/return";
     private final String RETURN_ALREADYRETURNED_URL = "/books/A Game of Thrones/return";
 
+
     @Test
     void shouldListBooks() throws Exception {
         when(bookService.listBooks()).thenReturn(Arrays
@@ -76,7 +84,7 @@ class BookControllerTest {
     @Test
     void shouldCheckOutExistingBook() throws Exception {
         when(bookService.checkoutBook(any())).thenReturn(MESSAGE_CHECKOUT_SUCCESS);
-        mockMvc.perform(put(CHECKOUT_SUCCESS_URL)
+        mockMvc.perform(put(CHECKOUT_SUCCESS_URL).with(user("test").password("test").roles("USER"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(MESSAGE_CHECKOUT_SUCCESS));
@@ -85,7 +93,7 @@ class BookControllerTest {
     @Test
     void shouldNotCheckOutAlreadyCheckedOutBook() throws Exception {
         when(bookService.checkoutBook(any())).thenReturn(MESSAGE_CHECKEDOUTBOOK);
-        mockMvc.perform(put(CHECKOUT_ALREADYCHECKEDOUT_URL)
+        mockMvc.perform(put(CHECKOUT_ALREADYCHECKEDOUT_URL).with(user("test").password("test").roles("USER"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(MESSAGE_CHECKEDOUTBOOK));
@@ -95,7 +103,7 @@ class BookControllerTest {
     @Test
     void shouldNotCheckOutTheBookNotInLibrary() throws Exception {
         when(bookService.checkoutBook(any())).thenReturn(MESSAGE_CHECKOUT_UNSUCCESSFULL);
-        mockMvc.perform(put(CHECKOUT_UNSUCCESS_URL)
+        mockMvc.perform(put(CHECKOUT_UNSUCCESS_URL).with(user("test").password("test").roles("USER"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(MESSAGE_CHECKOUT_UNSUCCESSFULL));
@@ -106,7 +114,7 @@ class BookControllerTest {
     @Test
     void shouldReturnExistingBook() throws Exception {
         when(bookService.returnBook(any())).thenReturn(MESSAGE_RETURN_SUCCESS);
-        mockMvc.perform(put(RETURN_SUCCESS_URL)
+        mockMvc.perform(put(RETURN_SUCCESS_URL).with(user("test").password("test").roles("USER"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(MESSAGE_RETURN_SUCCESS));
@@ -115,7 +123,7 @@ class BookControllerTest {
     @Test
     void shouldNotReturnTheAlreadyReturnedBook() throws Exception {
         when(bookService.returnBook(any())).thenReturn(MESSAGE_RETURN_RETURNEDBOOK);
-        mockMvc.perform(put(RETURN_ALREADYRETURNED_URL)
+        mockMvc.perform(put(RETURN_ALREADYRETURNED_URL).with(user("test").password("test").roles("USER"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(MESSAGE_RETURN_RETURNEDBOOK));
@@ -125,7 +133,7 @@ class BookControllerTest {
     @Test
     void shouldNotReturnTheBooksNotInTheLibrary() throws Exception {
         when(bookService.returnBook(any())).thenReturn(MESSAGE_RETURN_UNSUCCESSFULL);
-        mockMvc.perform(put(RETURN_UNSUCCESS_URL)
+        mockMvc.perform(put(RETURN_UNSUCCESS_URL).with(user("test").password("test").roles("USER"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(MESSAGE_RETURN_UNSUCCESSFULL));
