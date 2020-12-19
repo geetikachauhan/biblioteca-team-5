@@ -1,11 +1,12 @@
 package com.vapasi.biblioteca.service;
 
 import com.vapasi.biblioteca.model.Book;
+import com.vapasi.biblioteca.repository.BookRegisterRepository;
 import com.vapasi.biblioteca.repository.BookRepository;
 import com.vapasi.biblioteca.response.BookResponse;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -23,7 +24,9 @@ class BookServiceTest {
 
     @Mock
     BookRepository bookRepository;
-    @InjectMocks
+    @Mock
+    BookRegisterRepository bookRegisterRepository;
+
     BookService bookService;
 
     private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
@@ -43,6 +46,10 @@ class BookServiceTest {
     private final Book CHECKEDOUT_BOOK_COPY = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, "978-1-60309-047-5" ,false);
     private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter", "JK Rowling" , 1997, "978-1-60309-025-5" , false);
 
+    @BeforeEach
+    public void setup() {
+        bookService = new BookService(bookRepository, new BookRegisterService(bookRegisterRepository));
+    }
 
     @Test
     void shouldReturnListAvailableOfBooks() {

@@ -4,18 +4,18 @@ import com.vapasi.biblioteca.model.Book;
 import com.vapasi.biblioteca.repository.BookRepository;
 import com.vapasi.biblioteca.response.BookResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
 public class BookService {
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private BookRegisterService bookRegisterService;
 
     private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
     private final String MESSAGE_CHECKEDOUTBOOK = "That book has been checked out already.";
@@ -25,8 +25,9 @@ public class BookService {
     private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
 
 
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, BookRegisterService bookRegisterService) {
         this.bookRepository = bookRepository;
+        this.bookRegisterService = bookRegisterService;
     }
 
     public List<BookResponse> listBooks() {
@@ -47,6 +48,8 @@ public class BookService {
             return MESSAGE_CHECKEDOUTBOOK;
 
         bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn(), false));
+        bookRegisterService.addBookRecord(book.getId());
+
         return MESSAGE_CHECKOUT_SUCCESS;
     }
 
@@ -59,6 +62,8 @@ public class BookService {
             return MESSAGE_RETURN_RETURNEDBOOK;
 
         bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn(), true));
+        bookRegisterService.removeBookRecord(book.getId());
+
         return MESSAGE_RETURN_SUCCESS;
     }
 
