@@ -27,14 +27,13 @@ class MovieServiceTest {
 
     @Test
     void shouldReturnListAvailableOfMovies() {
-        List<Movie> expectedMovieList = Arrays.asList(new Movie(1, "Harry Potter and the Philosopher's Stone", 2001, "Chris Columbus", 8.0 ));
+        List<Movie> expectedMovieList = Arrays.asList(new Movie(1, "Harry Potter and the Philosopher's Stone", 2001, "Chris Columbus", 8.0F, true));
         List<MovieResponse> expectedMovieResponseList = new ArrayList();
-        expectedMovieResponseList.add(new MovieResponse("Harry Potter and the Philosopher's Stone", 2001, "Chris Columbus", 8.0  ));
+        expectedMovieResponseList.add(new MovieResponse("Harry Potter and the Philosopher's Stone", 2001, "Chris Columbus", 8.0F));
         when(movieRepository.findAllByOrderByMovieNameAsc()).thenReturn(expectedMovieList);
         List<MovieResponse> actualMovieResponseList = movieService.listMovies();
 
         assertEquals(expectedMovieResponseList, actualMovieResponseList);
         verify(movieRepository).findAllByOrderByMovieNameAsc();
-
     }
 }

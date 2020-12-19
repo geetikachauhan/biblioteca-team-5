@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
     List<Movie> findAllByOrderByMovieNameAsc();
+    List<Movie> findAllByMovieName(String movieName);
 }

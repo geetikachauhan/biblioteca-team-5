@@ -3,6 +3,8 @@ package com.vapasi.biblioteca.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -15,27 +17,23 @@ public class Movie {
     private String movieName;
     private Integer movieYear;
     private String director;
-    private Double rating;
+    private Float rating;
     private Boolean available;
 
     public Movie() {
     }
 
-    public Movie(Integer id, String movieName, Integer movieYear, String director, Double rating) {
-        this.id = id;
-        this.movieName = movieName;
-        this.movieYear = movieYear;
-        this.director = director;
-        this.rating = rating;
-    }
-
-    public Movie(Integer id, String movieName, Integer movieYear, String director, Double rating, Boolean available) {
+    public Movie(Integer id, String movieName, Integer movieYear, String director, Float rating, Boolean available) {
         this.id = id;
         this.movieName = movieName;
         this.movieYear = movieYear;
         this.director = director;
         this.rating = rating;
         this.available = available;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getMovieName() {
@@ -50,7 +48,7 @@ public class Movie {
         return director;
     }
 
-    public Double getRating() {
+    public Float getRating() {
         return rating;
     }
 

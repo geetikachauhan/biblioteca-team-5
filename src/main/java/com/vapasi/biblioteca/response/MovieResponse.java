@@ -6,9 +6,9 @@ public class MovieResponse {
     private String movieName;
     private Integer movieYear;
     private String director;
-    private Double rating;
+    private Float rating;
 
-    public MovieResponse(String movieName, Integer movieYear, String director, Double rating) {
+    public MovieResponse(String movieName, Integer movieYear, String director, Float rating) {
         this.movieName = movieName;
         this.movieYear = movieYear;
         this.director = director;
@@ -27,7 +27,7 @@ public class MovieResponse {
         return director;
     }
 
-    public Double getRating() {
+    public Float getRating() {
         return rating;
     }
 

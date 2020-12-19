@@ -18,7 +18,14 @@ class MovieControllerITTest {
     private TestRestTemplate restTemplate;
     HttpEntity<String> entity;
     Long id;
-    private final String MOVIES_LIST_URL = "/books";
+    private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the movie";
+    private final String MESSAGE_CHECKEDOUT_MOVIE = "That movie has been checked out already.";
+    private final String MESSAGE_CHECKOUT_UNSUCCESSFULL = "That movie is not available in Library.";
+
+    private final String MOVIES_LIST_URL = "/movies";
+    private final String CHECKOUT_SUCCESS_URL = "/movies/How to Train Your Dragon/checkout";
+    private final String CHECKOUT_UNSUCCESS_URL = "/movies/Titanic/checkout";
+    private final String CHECKOUT_ALREADYCHECKEDOUT_URL = "/movies/The Colour of Magic/checkout";
 
     @BeforeEach
     public void setUp() {
@@ -34,5 +41,17 @@ class MovieControllerITTest {
     void shouldListTheMovies() {
         ResponseEntity<String> response = this.restTemplate.exchange(MOVIES_LIST_URL, HttpMethod.GET, entity, String.class, id);
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void shouldCheckoutMovie() {
+        ResponseEntity<String> response = this.restTemplate.exchange(CHECKOUT_SUCCESS_URL , HttpMethod.PUT, entity, String.class, id);
+        assertEquals(MESSAGE_CHECKOUT_SUCCESS, response.getBody());
+    }
+
+    @Test
+    void shouldNotCheckoutMoviesNotInTheLibrary() {
+        ResponseEntity<String> response = this.restTemplate.exchange(CHECKOUT_UNSUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
+        assertEquals(MESSAGE_CHECKOUT_UNSUCCESSFULL, response.getBody());
     }
 }
