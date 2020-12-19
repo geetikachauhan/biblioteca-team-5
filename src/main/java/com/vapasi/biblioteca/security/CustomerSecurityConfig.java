@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class CustomerSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -16,7 +17,7 @@ public class CustomerSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     private final String[] AUTH_WHITELIST = {"/v2/api-docs", "/swagger-resources", "/swagger-resources/**", "/configuration/ui",
-            "/configuration/security", "/swagger-ui.html", "/webjars/**", "/welcome","/books" ,"/error"};
+            "/configuration/security", "/swagger-ui.html", "/webjars/**", "/welcome","/books","/movies" ,"/error"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -25,9 +26,16 @@ public class CustomerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic();
+                .httpBasic()
+                .and()
+                .logout().clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/welcome")
+                .invalidateHttpSession(true)        // set invalidation state when logout
+                .deleteCookies("JSESSIONID")
+                ;
 
-    }
+     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth)

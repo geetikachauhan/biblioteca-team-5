@@ -3,8 +3,6 @@ package com.vapasi.biblioteca.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Objects;
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -16,27 +14,20 @@ public class Customer {
     private String name;
     private String libraryNumber;
     private String password;
+    private String email;
+    private String phone;
 
     public Customer(){
 
     }
 
-    public Customer(Integer id, String name, String libraryNumber, String password) {
+    public Customer(Integer id, String name, String libraryNumber, String password, String email, String phone) {
         this.id = id;
         this.name = name;
         this.libraryNumber = libraryNumber;
         this.password = password;
-    }
-
-    public Customer(String name, String libraryNumber, String password) {
-        this.name = name;
-        this.libraryNumber = libraryNumber;
-        this.password = password;
-    }
-
-
-    public Integer getId() {
-        return id;
+        this.email = email;
+        this.phone = phone;
     }
 
     public String getName() {
@@ -51,15 +42,11 @@ public class Customer {
         return password;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return Objects.equals(id, customer.id) &&
-                Objects.equals(name, customer.name) &&
-                Objects.equals(libraryNumber, customer.libraryNumber) &&
-                Objects.equals(password, customer.password);
+    public String getEmail() {
+        return email;
     }
 
+    public String getPhone() {
+        return phone;
+    }
 }

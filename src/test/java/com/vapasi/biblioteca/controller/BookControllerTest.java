@@ -3,6 +3,7 @@ package com.vapasi.biblioteca.controller;
 
 import com.vapasi.biblioteca.response.BookResponse;
 import com.vapasi.biblioteca.service.BookService;
+import com.vapasi.biblioteca.service.CustomerService;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,25 +12,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.web.FilterChainProxy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest
+@WebMvcTest(BookController.class)
 @ExtendWith(SpringExtension.class)
 class BookControllerTest {
 
@@ -38,6 +36,7 @@ class BookControllerTest {
 
     @MockBean
     private BookService bookService;
+
     private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
     private final String MESSAGE_CHECKEDOUTBOOK = "That book has been checked out already.";
     private final String MESSAGE_CHECKOUT_UNSUCCESSFULL="That book is not available in Library.";
@@ -84,6 +83,7 @@ class BookControllerTest {
     @Test
     void shouldCheckOutExistingBook() throws Exception {
         when(bookService.checkoutBook(any())).thenReturn(MESSAGE_CHECKOUT_SUCCESS);
+
         mockMvc.perform(put(CHECKOUT_SUCCESS_URL).with(user("test").password("test").roles("USER"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

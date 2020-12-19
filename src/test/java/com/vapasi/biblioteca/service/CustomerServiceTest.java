@@ -9,10 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -28,9 +24,20 @@ class CustomerServiceTest {
 
     @Test
     void shouldReturnCustomerDetails() {
-        Customer customer = new Customer("test", "test", "test");
+        Customer customer = new Customer(1 ,"test", "test", "test" ,"test@email.com","2342423456");
         when(customerRepository.findByLibraryNumber(anyString())).thenReturn(customer);
-        CustomerResponse customerResponse = new CustomerResponse(customer.getName(), customer.getLibraryNumber(), customer.getPassword());
+        CustomerResponse customerResponse = new CustomerResponse(customer.getName(),customer.getEmail(),customer.getPhone());
+        assertEquals(customerResponse, customerService.customerDetails("test"));
+        verify(customerRepository).findByLibraryNumber("test");
+
+
+    }
+
+    @Test
+    void shouldReturnUserDetails() {
+        Customer customer = new Customer(1 ,"test", "test", "test" ,"test@email.com","2342423456");
+        when(customerRepository.findByLibraryNumber(anyString())).thenReturn(customer);
+        CustomerResponse customerResponse = new CustomerResponse(customer.getName(),customer.getEmail(),customer.getPhone());
         assertEquals(customerResponse, customerService.customerDetails("test"));
         verify(customerRepository).findByLibraryNumber("test");
 

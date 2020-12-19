@@ -64,9 +64,6 @@ class BookServiceTest {
 
     }
 
-
-
-
     @Test
     void shouldCheckoutExistingBook() {
         Book book = AVAILABLE_BOOK;

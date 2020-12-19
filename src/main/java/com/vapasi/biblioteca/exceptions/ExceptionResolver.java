@@ -12,6 +12,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class ExceptionResolver {
 
     private String errorMessage = "Page Not Found";
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<String> handleNoHandlerFoundException(NoHandlerFoundException ex) {
