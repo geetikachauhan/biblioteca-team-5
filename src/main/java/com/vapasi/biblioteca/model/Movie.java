@@ -1,9 +1,9 @@
 package com.vapasi.biblioteca.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Objects;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -17,6 +17,10 @@ public class Movie {
     private String movieName;
     private Integer movieYear;
     private String director;
+
+    @Column(
+            columnDefinition = "NUMERIC(19,0)"
+    )
     private Float rating;
     private Boolean available;
 

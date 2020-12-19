@@ -36,7 +36,7 @@ public class MovieController {
     }
 
     @PutMapping("/{movieName}/checkout")
-    public ResponseEntity<String> checkoutBook(@PathVariable("movieName") String movieName) {
+    public ResponseEntity<String> checkoutMovie(@PathVariable("movieName") String movieName) {
         String message = movieService.checkoutMovie(movieName);
         logger.info("[Movies-Checkout-Action] " + getUserName() + ": MovieName:" + movieName + " Checkout message: " + message);
         return ResponseEntity.ok().body(message);
