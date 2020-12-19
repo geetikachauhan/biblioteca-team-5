@@ -16,6 +16,7 @@ public class Movie {
     private Integer movieYear;
     private String director;
     private Double rating;
+    private Boolean available;
 
     public Movie() {
     }
@@ -26,6 +27,15 @@ public class Movie {
         this.movieYear = movieYear;
         this.director = director;
         this.rating = rating;
+    }
+
+    public Movie(Integer id, String movieName, Integer movieYear, String director, Double rating, Boolean available) {
+        this.id = id;
+        this.movieName = movieName;
+        this.movieYear = movieYear;
+        this.director = director;
+        this.rating = rating;
+        this.available = available;
     }
 
     public String getMovieName() {
@@ -44,5 +54,8 @@ public class Movie {
         return rating;
     }
 
+    public Boolean isAvailable() {
+        return available;
+    }
 }
 
