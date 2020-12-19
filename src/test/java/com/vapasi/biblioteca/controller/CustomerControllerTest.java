@@ -11,14 +11,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
-class MovieControllerITTest {
+class CustomerControllerTest {
+
     @Autowired
     private TestRestTemplate restTemplate;
+
     HttpEntity<String> entity;
     Long id;
-    private final String MOVIES_LIST_URL = "/books";
 
     @BeforeEach
     public void setUp() {
@@ -30,9 +32,13 @@ class MovieControllerITTest {
         entity = new HttpEntity<String>(requestBody, headers);
     }
 
+    private final String CUSTOMER_DETAILS_URL = "/customer";
+
+
     @Test
-    void shouldListTheMovies() {
-        ResponseEntity<String> response = this.restTemplate.exchange(MOVIES_LIST_URL, HttpMethod.GET, entity, String.class, id);
+    void shouldListTheCustomerDetails() {
+        ResponseEntity<String> response = this.restTemplate.exchange(CUSTOMER_DETAILS_URL, HttpMethod.GET, entity, String.class, id);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
+
 }

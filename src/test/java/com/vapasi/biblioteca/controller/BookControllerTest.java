@@ -3,12 +3,16 @@ package com.vapasi.biblioteca.controller;
 
 import com.vapasi.biblioteca.response.BookResponse;
 import com.vapasi.biblioteca.service.BookService;
+import com.vapasi.biblioteca.service.CustomerService;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -32,6 +36,7 @@ class BookControllerTest {
 
     @MockBean
     private BookService bookService;
+
     private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
     private final String MESSAGE_CHECKEDOUTBOOK = "That book has been checked out already.";
     private final String MESSAGE_CHECKOUT_UNSUCCESSFULL="That book is not available in Library.";
@@ -78,6 +83,7 @@ class BookControllerTest {
     @Test
     void shouldCheckOutExistingBook() throws Exception {
         when(bookService.checkoutBook(any())).thenReturn(MESSAGE_CHECKOUT_SUCCESS);
+
         mockMvc.perform(put(CHECKOUT_SUCCESS_URL).with(user("test").password("test").roles("USER"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

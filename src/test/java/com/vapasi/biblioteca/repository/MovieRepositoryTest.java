@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
-public class MovieRepositoryTest {
+class MovieRepositoryTest {
 
     @Autowired
     MovieRepository movieRepository;

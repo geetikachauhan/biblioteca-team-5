@@ -4,6 +4,7 @@ import com.vapasi.biblioteca.model.Customer;
 import com.vapasi.biblioteca.repository.CustomerRepository;
 import com.vapasi.biblioteca.response.CustomerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,19 +27,17 @@ public class CustomerService implements UserDetailsService {
 
     public CustomerResponse customerDetails(String libraryNumber) {
         Customer customer = customerRepository.findByLibraryNumber(libraryNumber);
-        CustomerResponse customerResponse = new CustomerResponse(customer.getName(), customer.getLibraryNumber(), customer.getPassword());
-        return customerResponse;
-   }
+        return new CustomerResponse(customer.getName(), customer.getEmail() , customer.getPhone());
+    }
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String libraryNumber) throws RuntimeException{
+    public UserDetails loadUserByUsername(String libraryNumber){
         Customer customer = customerRepository.findByLibraryNumber(libraryNumber);
-        System.out.println(libraryNumber);
         if (customer != null)
             return new User(customer.getLibraryNumber(),customer.getPassword(), buildSimpleGrantedAuthorities("ROLE_USER"));
         else
-            throw new RuntimeException("User not found");
+            throw new BadCredentialsException("User Not Found");
     }
 
     private static List<SimpleGrantedAuthority> buildSimpleGrantedAuthorities(String role) {

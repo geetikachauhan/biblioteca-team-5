@@ -3,9 +3,6 @@ package com.vapasi.biblioteca.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import java.util.Objects;
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -47,12 +44,5 @@ public class Movie {
         return rating;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Movie movie = (Movie) o;
-        return Objects.equals(id, movie.id) && Objects.equals(movieName, movie.movieName) && Objects.equals(movieYear, movie.movieYear) && Objects.equals(director, movie.director) && Objects.equals(rating, movie.rating);
-    }
 }
 

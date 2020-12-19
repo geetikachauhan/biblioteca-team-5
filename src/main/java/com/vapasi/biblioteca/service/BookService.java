@@ -38,7 +38,7 @@ public class BookService {
 
     public String checkoutBook(String bookTitle) {
         List<Book> bookList = findBookByTitle(bookTitle);
-        if (bookList==null || bookList.size() == 0)
+        if (bookList==null || bookList.isEmpty())
             return MESSAGE_CHECKOUT_UNSUCCESSFULL;
         Book book = firstAvailableBookForCheckout(bookList);
         if (book == null)

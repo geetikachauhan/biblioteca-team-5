@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(MovieController.class)
 @ExtendWith(SpringExtension.class)
-public class MovieControllerTest {
+class MovieControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
-public class CustomerRepositoryTest {
+class CustomerRepositoryTest {
 
     @Autowired
     CustomerRepository customerRepository;
 
     @Test
-    public void shouldFindByLibraryNumber() {
+    void shouldFindByLibraryNumber() {
 
         Customer customer = customerRepository.findByLibraryNumber("test");
         assertEquals("test", customer.getName());

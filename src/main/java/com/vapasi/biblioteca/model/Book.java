@@ -3,7 +3,6 @@ package com.vapasi.biblioteca.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Objects;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -57,11 +56,4 @@ public class Book {
         return available;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(author, book.author) && Objects.equals(yearPublished, book.yearPublished) && Objects.equals(isbn, book.isbn) && Objects.equals(available, book.available);
-    }
 }
