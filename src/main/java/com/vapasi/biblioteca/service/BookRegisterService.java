@@ -7,13 +7,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class BookRegisterService {
 
     @Autowired
     BookRegisterRepository bookRegisterRepository;
-
     private static final String GUEST_USER = "Guest";
 
     public BookRegisterService(BookRegisterRepository bookRegisterRepository) {

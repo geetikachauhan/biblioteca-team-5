@@ -55,7 +55,7 @@ public class Movie {
         return rating;
     }
 
-    public Boolean isAvailable() {
+    public boolean isAvailable() {
         return available;
     }
 }

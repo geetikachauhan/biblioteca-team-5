@@ -16,12 +16,9 @@ public class MovieService {
     @Autowired
     private MovieRegisterService movieRegisterService;
 
-    private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the movie";
-    private final String MESSAGE_CHECKEDOUT_MOVIE = "That movie has been checked out already.";
-    private final String MESSAGE_CHECKOUT_UNSUCCESSFULL = "That movie is not available in Library.";
-    private final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the movie";
-    private final String MESSAGE_RETURN_RETURNED_MOVIE = "That movie has been returned already";
-    private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid movie to return";
+    private static final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the movie";
+    private static final String MESSAGE_CHECKEDOUT_MOVIE = "That movie has been checked out already.";
+    private static final String MESSAGE_CHECKOUT_UNSUCCESSFULL = "That movie is not available in Library.";
 
     public MovieService(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
