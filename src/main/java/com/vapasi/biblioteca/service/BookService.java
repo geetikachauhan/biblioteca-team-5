@@ -20,7 +20,7 @@ public class BookService {
 
     private static final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
     private static final String MESSAGE_CHECKEDOUTBOOK = "That book has been checked out already.";
-    private static final String MESSAGE_CHECKOUT_UNSUCCESSFULL="That book is not available in Library.";
+    private static final String MESSAGE_CHECKOUT_UNSUCCESSFULL = "That book is not available in Library.";
     private static final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
     private static final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
     private static final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
@@ -41,12 +41,12 @@ public class BookService {
         return allBooksResponse;
     }
 
-    public String checkoutBook(String bookTitle) {
-        List<Book> bookList = findBookByTitle(bookTitle);
-        if (bookList==null || bookList.isEmpty())
-            return MESSAGE_CHECKOUT_UNSUCCESSFULL;
-        Book book = firstAvailableBookForCheckout(bookList);
+    public String checkoutBook(String isbn) {
+        Book book = findBookByIsbn(isbn);
         if (book == null)
+            return MESSAGE_CHECKOUT_UNSUCCESSFULL;
+
+        if (!book.isAvailable())
             return MESSAGE_CHECKEDOUTBOOK;
 
         bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn(), false));
@@ -55,14 +55,14 @@ public class BookService {
         return MESSAGE_CHECKOUT_SUCCESS;
     }
 
-    public String returnBook(String bookTitle) {
-        List<Book> bookList = findBookByTitle(bookTitle);
-        if (bookList ==null || bookList.isEmpty())
-            return MESSAGE_RETURN_UNSUCCESSFULL;
-        Book book = firstAvailableBookForReturn(bookList);
+    public String returnBook(String isbn) {
+        Book book = findBookByIsbn(isbn);
         if (book == null)
+            return MESSAGE_RETURN_UNSUCCESSFULL;
+
+        if (book.isAvailable())
             return MESSAGE_RETURN_RETURNEDBOOK;
-        if(!bookRegisterService.isValidUserToReturn(book.getId()))
+        if (!bookRegisterService.isValidUserToReturn(book.getId()))
             return MESSAGE_RETURN_NOTVALIDUSER;
 
         bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn(), true));
@@ -71,24 +71,13 @@ public class BookService {
         return MESSAGE_RETURN_SUCCESS;
     }
 
-    public Book firstAvailableBookForCheckout(List<Book> bookList) {
-        for (Book book : bookList) {
-            if (book.isAvailable())
-                return book;
-        }
-        return null;
-    }
-
-    public Book firstAvailableBookForReturn(List<Book> bookList) {
-        for (Book book : bookList) {
-            if (!book.isAvailable())
-                return book;
-        }
-        return null;
-    }
 
     public List<Book> findBookByTitle(String bookTitle) {
         return bookRepository.findByTitleOrderByIsbnAsc(bookTitle);
+    }
+
+    public Book findBookByIsbn(String isbn) {
+        return bookRepository.findByIsbn(isbn);
     }
 
     public boolean isBookAvailable(Book book) {

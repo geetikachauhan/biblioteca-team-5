@@ -32,17 +32,17 @@ public class BookController {
         return ResponseEntity.ok().body(bookService.listBooks());
     }
 
-    @PutMapping("/{title}/checkout")
-    public ResponseEntity<String> checkoutBook(@PathVariable("title") String title) {
-        String message = bookService.checkoutBook(title);
-        logger.info("[Books-Checkout-Action] " + getUserName() + ": BookTitle:" + title +  " Checkout message: " + message);
+    @PutMapping("/{isbn}/checkout")
+    public ResponseEntity<String> checkoutBook(@PathVariable("isbn") String isbn) {
+        String message = bookService.checkoutBook(isbn);
+        logger.info("[Books-Checkout-Action] " + getUserName() + ": BookIsbn:" + isbn +  " Checkout message: " + message);
         return ResponseEntity.ok().body(message);
     }
 
-    @PutMapping("/{title}/return")
-    public ResponseEntity<String> returnBook(@PathVariable("title") String title) {
-        String message = bookService.returnBook(title);
-        logger.info("[Books-Return-Action] " + getUserName() + ": BookTitle:" + title + " Return message: " + message);
+    @PutMapping("/{isbn}/return")
+    public ResponseEntity<String> returnBook(@PathVariable("isbn") String isbn) {
+        String message = bookService.returnBook(isbn);
+        logger.info("[Books-Return-Action] " + getUserName() + ": BookIsbn:" + isbn + " Return message: " + message);
         return ResponseEntity.ok().body(message);
     }
 

@@ -29,13 +29,13 @@ class BookControllerITTest {
     private final String MESSAGE_RETURN_NOT_VALID_USER = "You are not a valid customer to return this book.";
 
     private final String BOOKS_LIST_URL = "/books";
-    private final String CHECKOUT_SUCCESS_URL = "/books/A Game of Thrones/checkout";
-    private final String CHECKOUT_UNSUCCESS_URL = "/books/Harry Potter/checkout";
+    private final String CHECKOUT_SUCCESS_URL = "/books/978-1-60309-625-4/checkout";
+    private final String CHECKOUT_UNSUCCESS_URL = "/books/945-1-67809-875-9/checkout";
     private final String CHECKOUT_ALREADYCHECKEDOUT_URL = "/books/The Colour of Magic/checkout";
 
-    private final String RETURN_SUCCESS_URL = "/books/A Game of Thrones/return";
-    private final String RETURN_UNSUCCESS_URL = "/books/Harry Potter/return";
-    private final String RETURN_ALREADYRETURNED_URL = "/books/A Game of Thrones/return";
+    private final String RETURN_SUCCESS_URL = "/books/978-1-60309-625-4/return";
+    private final String RETURN_UNSUCCESS_URL = "/books/945-1-67809-875-9/return";
+    private final String RETURN_ALREADYRETURNED_URL = "/books/978-1-60309-625-4/return";
 
     @BeforeEach
     public void setUp() {
@@ -55,6 +55,8 @@ class BookControllerITTest {
 
     @Test
     void shouldCheckoutBook() {
+        restTemplate.exchange(RETURN_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
+
         ResponseEntity<String> response = this.restTemplate.exchange(CHECKOUT_SUCCESS_URL , HttpMethod.PUT, entity, String.class, id);
         assertEquals(MESSAGE_CHECKOUT_SUCCESS, response.getBody());
     }
@@ -67,7 +69,7 @@ class BookControllerITTest {
 
     @Test
     void shouldReturnBook() {
-        restTemplate.exchange(CHECKOUT_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
+       restTemplate.exchange(CHECKOUT_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
         ResponseEntity<String> response = this.restTemplate.exchange(RETURN_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
         assertEquals(MESSAGE_RETURN_SUCCESS, response.getBody());
     }
@@ -80,7 +82,7 @@ class BookControllerITTest {
 
     @Test
     void shouldNotReturnBookAsDifferentCustomer() {
-        restTemplate.exchange(CHECKOUT_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
+       restTemplate.exchange(CHECKOUT_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBasicAuth("Guest", "guest");
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);

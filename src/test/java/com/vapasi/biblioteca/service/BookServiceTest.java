@@ -33,7 +33,7 @@ class BookServiceTest {
 
     private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
     private final String MESSAGE_CHECKEDOUTBOOK = "That book has been checked out already.";
-    private final String MESSAGE_CHECKOUT_UNSUCCESSFULL="That book is not available in Library.";
+    private final String MESSAGE_CHECKOUT_UNSUCCESSFULL = "That book is not available in Library.";
     private final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
     private final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
     private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
@@ -43,11 +43,9 @@ class BookServiceTest {
     private final String EXISTING_BOOK_TITLE = "The Fellowship of the Ring";
     private final String BOOK_AUTHOR = "J. R. R. Tolkien";
     private final Integer BOOK_YEAR = 1954;
-    private final Book AVAILABLE_BOOK = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, "978-1-60309-047-6" , true);
-    private final Book AVAILABLE_BOOK_COPY = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, "978-1-60309-047-5" , true);
-    private final Book CHECKEDOUT_BOOK = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, "978-1-60309-047-6" ,false);
-    private final Book CHECKEDOUT_BOOK_COPY = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, "978-1-60309-047-5" ,false);
-    private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter", "JK Rowling" , 1997, "978-1-60309-025-5" , false);
+    private final Book AVAILABLE_BOOK = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, "978-1-634309-047-6", true);
+    private final Book CHECKEDOUT_BOOK = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, "978-1-603109-321-6", false);
+    private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter", "JK Rowling", 1997, "978-1-60309-025-5", false);
     private final Bookregister BOOK_REGISTER_WITH_GUEST = new Bookregister("Guest", 1);
     private final Bookregister BOOK_REGISTER_WITH_TEST = new Bookregister("test", 1);
 
@@ -58,9 +56,9 @@ class BookServiceTest {
 
     @Test
     void shouldReturnListAvailableOfBooks() {
-        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter", "J. K. Rowling", 1997, "978-1-60309-025-5" ,false), new Book(2, "Ponniyin Selvan", "Kalki Krishnamurthy", 1950 ,"978-1-60309-400-5", true));
+        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter", "J. K. Rowling", 1997, "978-1-60309-025-5", false), new Book(2, "Ponniyin Selvan", "Kalki Krishnamurthy", 1950, "978-1-60309-400-5", true));
         List<BookResponse> expectedBookResponseList = new ArrayList();
-        expectedBookResponseList.add(new BookResponse("Ponniyin Selvan", "Kalki Krishnamurthy",1950 ,"978-1-60309-400-5"  ));
+        expectedBookResponseList.add(new BookResponse("Ponniyin Selvan", "Kalki Krishnamurthy", 1950, "978-1-60309-400-5"));
         when(bookRepository.findAllByOrderByTitleAsc()).thenReturn(expectedBookList);
         List<BookResponse> actualBookResponseList = bookService.listBooks();
 
@@ -69,59 +67,58 @@ class BookServiceTest {
 
     }
 
+
     @Test
-    void shouldCheckoutExistingBook() {
+    void shouldCheckoutExistingBookByUsingIsbn() {
         Book book = AVAILABLE_BOOK;
-        List<Book> expectedBookList = Arrays.asList(AVAILABLE_BOOK , AVAILABLE_BOOK_COPY);
-        Book checkOutBook = new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn() ,false);
-        when(bookRepository.findByTitleOrderByIsbnAsc(EXISTING_BOOK_TITLE)).thenReturn(expectedBookList);
+        Book checkOutBook = new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(),
+                book.getIsbn(), false);
+        when(bookRepository.findByIsbn(AVAILABLE_BOOK.getIsbn())).thenReturn(AVAILABLE_BOOK);
         when(bookRepository.save(any())).thenReturn(checkOutBook);
-        assertEquals(MESSAGE_CHECKOUT_SUCCESS , bookService.checkoutBook(book.getTitle()));
+        assertEquals(MESSAGE_CHECKOUT_SUCCESS, bookService.checkoutBook(book.getIsbn()));
+
 
     }
 
     @Test
     void shouldNotCheckoutBooksNotInLibrary() {
         Book book = NON_EXISTING_BOOK;
-        when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(null);
-        assertEquals(MESSAGE_CHECKOUT_UNSUCCESSFULL , bookService.checkoutBook(book.getTitle()));
+        when(bookRepository.findByIsbn(any())).thenReturn(null);
+        assertEquals(MESSAGE_CHECKOUT_UNSUCCESSFULL, bookService.checkoutBook(book.getIsbn()));
     }
 
     @Test
     void shouldNotCheckoutAlreadyCheckedOutBook() {
         Book book = CHECKEDOUT_BOOK;
-        List<Book> expectedBookList = Arrays.asList(CHECKEDOUT_BOOK , CHECKEDOUT_BOOK_COPY);
-        when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(expectedBookList);
-        assertEquals(MESSAGE_CHECKEDOUTBOOK , bookService.checkoutBook(book.getTitle()));
+        when(bookRepository.findByIsbn(book.getIsbn())).thenReturn(book);
+        assertEquals(MESSAGE_CHECKEDOUTBOOK, bookService.checkoutBook(book.getIsbn()));
     }
+
 
     @Test
     void shouldReturnCheckedOutBook() {
         Book book = CHECKEDOUT_BOOK;
-        List<Book> expectedBookList = Arrays.asList(CHECKEDOUT_BOOK , CHECKEDOUT_BOOK_COPY);
-        Book returnedBook = new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn() ,true);
-        when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(expectedBookList);
+        Book returnedBook = new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn(), true);
+        when(bookRepository.findByIsbn(CHECKEDOUT_BOOK.getIsbn())).thenReturn(CHECKEDOUT_BOOK);
         when(bookRepository.save(any())).thenReturn(returnedBook);
         when(bookRegisterRepository.findById(CHECKEDOUT_BOOK.getId())).thenReturn(Optional.of(BOOK_REGISTER_WITH_GUEST));
-        assertEquals(MESSAGE_RETURN_SUCCESS , bookService.returnBook(book.getTitle()));
+        assertEquals(MESSAGE_RETURN_SUCCESS, bookService.returnBook(book.getIsbn()));
     }
-
 
     @Test
     void shouldNotReturnAlreadyReturnedBook() {
         Book book = AVAILABLE_BOOK;
-        List<Book> expectedBookList = Arrays.asList(AVAILABLE_BOOK , AVAILABLE_BOOK_COPY);
-        when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(expectedBookList);
-        assertEquals(MESSAGE_RETURN_RETURNEDBOOK , bookService.returnBook(book.getTitle()));
+        when(bookRepository.findByIsbn(AVAILABLE_BOOK.getIsbn())).thenReturn(book);
+        assertEquals(MESSAGE_RETURN_RETURNEDBOOK, bookService.returnBook(book.getIsbn()));
     }
 
     @Test
     void shouldNotReturnBooksNotInLibrary() {
         Book book = NON_EXISTING_BOOK;
-        when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(null);
-        assertEquals(MESSAGE_RETURN_UNSUCCESSFULL , bookService.returnBook(book.getTitle()));
-    }
+        when(bookRepository.findByIsbn(NON_EXISTING_BOOK.getIsbn())).thenReturn(null);
 
+        assertEquals(MESSAGE_RETURN_UNSUCCESSFULL, bookService.returnBook(book.getIsbn()));
+    }
 
     @Test
     void shouldReturnTrueForExistingAvailableBooks() {
@@ -140,31 +137,20 @@ class BookServiceTest {
 
     @Test
     void shouldFindTheExistingBookByTitle() {
-        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter", "J. K. Rowling", 1997, "978-1-60309-025-5" ,false), new Book(2, "Ponniyin Selvan", "Kalki Krishnamurthy", 1950 ,"978-1-60309-400-5", true));
+        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter", "J. K. Rowling", 1997, "978-1-60309-025-5", false), new Book(2, "Ponniyin Selvan", "Kalki Krishnamurthy", 1950, "978-1-60309-400-5", true));
         when(bookRepository.findByTitleOrderByIsbnAsc(EXISTING_BOOK_TITLE)).thenReturn(expectedBookList);
         assertEquals(2, bookService.findBookByTitle(EXISTING_BOOK_TITLE).size());
 
     }
 
-    @Test
-    void shouldReturnfirstAvailableBookForCheckout(){
-        List<Book> bookList = Arrays.asList(AVAILABLE_BOOK , AVAILABLE_BOOK_COPY);
-        assertEquals(AVAILABLE_BOOK, bookService.firstAvailableBookForCheckout(bookList));
-    }
-
-    @Test
-    void shoudlfirstAvailableBookForReturn(){
-        List<Book> bookList = Arrays.asList(CHECKEDOUT_BOOK , CHECKEDOUT_BOOK_COPY);
-        assertEquals(CHECKEDOUT_BOOK, bookService.firstAvailableBookForReturn(bookList));
-    }
 
     @Test
     void verifyReturningOfBookAgainstTheCustomerWhoCheckedOutTheBook() {
-        when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(Arrays.asList(CHECKEDOUT_BOOK));
+        when(bookRepository.findByIsbn(CHECKEDOUT_BOOK.getIsbn())).thenReturn(CHECKEDOUT_BOOK);
         when(bookRegisterRepository.findById(CHECKEDOUT_BOOK.getId())).thenReturn(Optional.of(BOOK_REGISTER_WITH_GUEST));
-        assertEquals(MESSAGE_RETURN_SUCCESS, bookService.returnBook(CHECKEDOUT_BOOK.getTitle()));
+        assertEquals(MESSAGE_RETURN_SUCCESS, bookService.returnBook(CHECKEDOUT_BOOK.getIsbn()));
         when(bookRegisterRepository.findById(CHECKEDOUT_BOOK.getId())).thenReturn(Optional.of(BOOK_REGISTER_WITH_TEST));
-        assertEquals(MESSAGE_RETURN_NOTVALIDUSER, bookService.returnBook(CHECKEDOUT_BOOK.getTitle()));
+        assertEquals(MESSAGE_RETURN_NOTVALIDUSER, bookService.returnBook(CHECKEDOUT_BOOK.getIsbn()));
     }
 
 }

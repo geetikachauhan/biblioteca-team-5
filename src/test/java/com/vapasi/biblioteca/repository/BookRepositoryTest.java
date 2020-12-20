@@ -20,7 +20,7 @@ class BookRepositoryTest {
     BookRepository bookRepository;
     private final String EXISTING_BOOK_TITLE = "The Fellowship of the Ring";
     private final String NON_EXISTING_BOOK_TITLE = "Harry Potter";
-    private final Book AVAILABLE_BOOK = new Book(2, EXISTING_BOOK_TITLE, "J. R. R. Tolkien", 1954, "978-1-60309-047-6", true);
+    private final Book AVAILABLE_BOOK = new Book(2, EXISTING_BOOK_TITLE, "J. R. R. Tolkien", 1954, "978-1-634309-047-6", true);
 
 
     @Test
@@ -48,5 +48,10 @@ class BookRepositoryTest {
         List<Book> nonExistingBook = bookRepository.findByTitleOrderByIsbnAsc(NON_EXISTING_BOOK_TITLE);
         assertEquals(0, nonExistingBook.size());
 
+    }
+    @Test
+    void shouldReturnTheBookByIsbn(){
+        Book existingBook = bookRepository.findByIsbn(AVAILABLE_BOOK.getIsbn());
+        assertEquals(AVAILABLE_BOOK.getIsbn(),existingBook.getIsbn());
     }
 }
