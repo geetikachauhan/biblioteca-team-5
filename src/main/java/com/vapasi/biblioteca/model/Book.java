@@ -52,7 +52,7 @@ public class Book {
         return isbn;
     }
 
-    public Boolean isAvailable() {
+    public boolean isAvailable() {
         return available;
     }
 

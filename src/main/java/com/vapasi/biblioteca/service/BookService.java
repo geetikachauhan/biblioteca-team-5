@@ -18,13 +18,13 @@ public class BookService {
     @Autowired
     private BookRegisterService bookRegisterService;
 
-    private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
-    private final String MESSAGE_CHECKEDOUTBOOK = "That book has been checked out already.";
-    private final String MESSAGE_CHECKOUT_UNSUCCESSFULL="That book is not available in Library.";
-    private final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
-    private final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
-    private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
-    private final String MESSAGE_RETURN_NOTVALIDUSER = "You are not a valid customer to return this book.";
+    private static final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
+    private static final String MESSAGE_CHECKEDOUTBOOK = "That book has been checked out already.";
+    private static final String MESSAGE_CHECKOUT_UNSUCCESSFULL="That book is not available in Library.";
+    private static final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
+    private static final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
+    private static final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
+    private static final String MESSAGE_RETURN_NOTVALIDUSER = "You are not a valid customer to return this book.";
 
 
     public BookService(BookRepository bookRepository, BookRegisterService bookRegisterService) {
@@ -57,7 +57,7 @@ public class BookService {
 
     public String returnBook(String bookTitle) {
         List<Book> bookList = findBookByTitle(bookTitle);
-        if (bookList ==null || bookList.size() == 0)
+        if (bookList ==null || bookList.isEmpty())
             return MESSAGE_RETURN_UNSUCCESSFULL;
         Book book = firstAvailableBookForReturn(bookList);
         if (book == null)
