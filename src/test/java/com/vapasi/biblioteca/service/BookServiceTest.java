@@ -136,15 +136,6 @@ class BookServiceTest {
     }
 
     @Test
-    void shouldFindTheExistingBookByTitle() {
-        List<Book> expectedBookList = Arrays.asList(new Book(1, "Harry Potter", "J. K. Rowling", 1997, "978-1-60309-025-5", false), new Book(2, "Ponniyin Selvan", "Kalki Krishnamurthy", 1950, "978-1-60309-400-5", true));
-        when(bookRepository.findByTitleOrderByIsbnAsc(EXISTING_BOOK_TITLE)).thenReturn(expectedBookList);
-        assertEquals(2, bookService.findBookByTitle(EXISTING_BOOK_TITLE).size());
-
-    }
-
-
-    @Test
     void verifyReturningOfBookAgainstTheCustomerWhoCheckedOutTheBook() {
         when(bookRepository.findByIsbn(CHECKEDOUT_BOOK.getIsbn())).thenReturn(CHECKEDOUT_BOOK);
         when(bookRegisterRepository.findById(CHECKEDOUT_BOOK.getId())).thenReturn(Optional.of(BOOK_REGISTER_WITH_GUEST));

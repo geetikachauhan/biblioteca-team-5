@@ -39,16 +39,17 @@ class BookControllerTest {
     private final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
     private final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
     private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
+    private final String MESSAGE_RETURN_NOT_VALID_USER = "You are not a valid customer to return this book.";
+
 
     private final String BOOKS_LIST_URL = "/books";
-    private final String CHECKOUT_SUCCESS_URL = "/books/A Game of Thrones/checkout";
-    private final String CHECKOUT_UNSUCCESS_URL = "/books/Harry Potter/checkout";
-    private final String CHECKOUT_ALREADYCHECKEDOUT_URL = "/books/The Colour of Magic/checkout";
+    private final String CHECKOUT_SUCCESS_URL = "/books/978-1-60309-625-4/checkout";
+    private final String CHECKOUT_UNSUCCESS_URL = "/books/945-1-67809-875-9/checkout";
+    private final String CHECKOUT_ALREADYCHECKEDOUT_URL = "/books/978-1-8918320-85-3/checkout";
 
-    private final String RETURN_SUCCESS_URL = "/books/The Colour of Magic/return";
-    private final String RETURN_UNSUCCESS_URL = "/books/Harry Potter/return";
-    private final String RETURN_ALREADYRETURNED_URL = "/books/A Game of Thrones/return";
-    private final String MESSAGE_RETURN_NOT_VALID_USER = "You are not a valid customer to return this book.";
+    private final String RETURN_SUCCESS_URL = "/books/978-1-8918320-85-3/return";
+    private final String RETURN_UNSUCCESS_URL = "/books/945-1-67809-875-9/return";
+    private final String RETURN_ALREADYRETURNED_URL = "/books/978-1-60309-625-4/return";
 
 
     @Test
@@ -144,6 +145,5 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(MESSAGE_RETURN_NOT_VALID_USER));
     }
-
 
 }

@@ -21,21 +21,17 @@ class BookControllerITTest {
     Long id;
 
     private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the book";
-    private final String MESSAGE_CHECKEDOUTBOOK = "That book has been checked out already.";
     private final String MESSAGE_CHECKOUT_UNSUCCESSFULL="That book is not available in Library.";
     private final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
-    private final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
     private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
     private final String MESSAGE_RETURN_NOT_VALID_USER = "You are not a valid customer to return this book.";
 
     private final String BOOKS_LIST_URL = "/books";
     private final String CHECKOUT_SUCCESS_URL = "/books/978-1-60309-625-4/checkout";
     private final String CHECKOUT_UNSUCCESS_URL = "/books/945-1-67809-875-9/checkout";
-    private final String CHECKOUT_ALREADYCHECKEDOUT_URL = "/books/The Colour of Magic/checkout";
 
     private final String RETURN_SUCCESS_URL = "/books/978-1-60309-625-4/return";
     private final String RETURN_UNSUCCESS_URL = "/books/945-1-67809-875-9/return";
-    private final String RETURN_ALREADYRETURNED_URL = "/books/978-1-60309-625-4/return";
 
     @BeforeEach
     public void setUp() {

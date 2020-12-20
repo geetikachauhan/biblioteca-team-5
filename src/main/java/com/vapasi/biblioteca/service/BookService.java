@@ -72,10 +72,6 @@ public class BookService {
     }
 
 
-    public List<Book> findBookByTitle(String bookTitle) {
-        return bookRepository.findByTitleOrderByIsbnAsc(bookTitle);
-    }
-
     public Book findBookByIsbn(String isbn) {
         return bookRepository.findByIsbn(isbn);
     }

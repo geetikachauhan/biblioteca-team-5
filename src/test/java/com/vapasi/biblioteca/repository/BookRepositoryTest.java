@@ -31,24 +31,11 @@ class BookRepositoryTest {
 
     @Test
     void shouldUpdateTheExistingBook() {
-        List<Book> existingBookList = bookRepository.findByTitleOrderByIsbnAsc(EXISTING_BOOK_TITLE);
-        Book existingBook = existingBookList.get(0);
+        Book existingBook = bookRepository.findByIsbn(AVAILABLE_BOOK.getIsbn());
         bookRepository.save(new Book(existingBook.getId(), existingBook.getTitle(), existingBook.getAuthor(), existingBook.getYearPublished(), existingBook.getIsbn(), false));
-        assertFalse(bookRepository.findByTitleOrderByIsbnAsc(EXISTING_BOOK_TITLE).get(0).isAvailable());
+        assertFalse(bookRepository.findByIsbn(AVAILABLE_BOOK.getIsbn()).isAvailable());
     }
 
-    @Test
-    void shouldReturnTheExistingBookByTitle() {
-        List<Book> existingBookList = bookRepository.findByTitleOrderByIsbnAsc(EXISTING_BOOK_TITLE);
-        assertEquals(2, existingBookList.size());
-    }
-
-    @Test
-    void shouldReturnNullForTheNonExistingBook() {
-        List<Book> nonExistingBook = bookRepository.findByTitleOrderByIsbnAsc(NON_EXISTING_BOOK_TITLE);
-        assertEquals(0, nonExistingBook.size());
-
-    }
     @Test
     void shouldReturnTheBookByIsbn(){
         Book existingBook = bookRepository.findByIsbn(AVAILABLE_BOOK.getIsbn());

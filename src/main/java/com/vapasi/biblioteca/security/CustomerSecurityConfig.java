@@ -31,7 +31,7 @@ public class CustomerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/welcome")
-                .invalidateHttpSession(true)        // set invalidation state when logout
+                .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 ;
 
