@@ -19,13 +19,11 @@ class MovieControllerITTest {
     HttpEntity<String> entity;
     Long id;
     private final String MESSAGE_CHECKOUT_SUCCESS = "Thank you! Enjoy the movie";
-    private final String MESSAGE_CHECKEDOUT_MOVIE = "That movie has been checked out already.";
     private final String MESSAGE_CHECKOUT_UNSUCCESSFULL = "That movie is not available in Library.";
 
     private final String MOVIES_LIST_URL = "/movies";
     private final String CHECKOUT_SUCCESS_URL = "/movies/How to Train Your Dragon/checkout";
     private final String CHECKOUT_UNSUCCESS_URL = "/movies/Titanic/checkout";
-    private final String CHECKOUT_ALREADYCHECKEDOUT_URL = "/movies/The Colour of Magic/checkout";
 
     @BeforeEach
     public void setUp() {

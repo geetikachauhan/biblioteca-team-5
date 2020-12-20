@@ -6,10 +6,10 @@ import java.util.Objects;
 
 @Entity
 public class Movieregister {
-    String libraryNumber;
 
     @Id
     Integer movieId;
+    String libraryNumber;
 
     public Movieregister() {
     }
@@ -17,10 +17,6 @@ public class Movieregister {
     public Movieregister(String libraryNumber, Integer movieId) {
         this.libraryNumber = libraryNumber;
         this.movieId = movieId;
-    }
-
-    public String getLibraryNumber() {
-        return libraryNumber;
     }
 
     public Integer getMovieId() {
@@ -32,6 +28,7 @@ public class Movieregister {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movieregister that = (Movieregister) o;
-        return Objects.equals(libraryNumber, that.libraryNumber) && Objects.equals(movieId, that.movieId);
+        return Objects.equals(movieId, that.movieId) && Objects.equals(libraryNumber, that.libraryNumber);
     }
+
 }

@@ -11,7 +11,7 @@ values ('Assassin’s Apprentice', 'Robin Hobb', 1995, '978-1-60309-016-2', true
 insert into book(title, author, year_published, isbn, available)
 values ('The Lies of Locke Lamora', 'Scott Lynch', 2006, '978-1-60309-265-4', true);
 insert into book(title, author, year_published, isbn, available)
-values ('A Game of Thrones', 'George R. R. Martin', 1996, '978-1-60309-123-4', true);
+values ('A Game of Thrones', 'George R. R. Martin', 1996, '978-1-60309-234-4', true);
 insert into book(title, author, year_published, isbn, available)
 values ('The Fellowship of the Ring', 'J. R. R. Tolkien', 1954, '978-1-60309-321-6', true);
 

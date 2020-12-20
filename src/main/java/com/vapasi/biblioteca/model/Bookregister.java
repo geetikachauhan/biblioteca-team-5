@@ -20,12 +20,12 @@ public class Bookregister {
         this.bookId = bookId;
     }
 
-    public String getLibraryNumber() {
-        return libraryNumber;
-    }
-
     public Integer getBookId() {
         return bookId;
+    }
+
+    public String getLibraryNumber() {
+        return libraryNumber;
     }
 
     @Override
@@ -36,8 +36,4 @@ public class Bookregister {
         return Objects.equals(libraryNumber, thatBookregister.libraryNumber) && Objects.equals(bookId, thatBookregister.bookId);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(libraryNumber, bookId);
-    }
 }

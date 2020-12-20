@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -49,7 +48,8 @@ public class BookController {
 
     public String getUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication!=null) userName = authentication.getName();
+        if(authentication!=null)
+            userName = authentication.getName();
         return userName;
     }
 

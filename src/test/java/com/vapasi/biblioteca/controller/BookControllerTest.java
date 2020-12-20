@@ -48,7 +48,7 @@ class BookControllerTest {
     private final String RETURN_SUCCESS_URL = "/books/The Colour of Magic/return";
     private final String RETURN_UNSUCCESS_URL = "/books/Harry Potter/return";
     private final String RETURN_ALREADYRETURNED_URL = "/books/A Game of Thrones/return";
-    private final String MESSAGE_RETURN_NOTVALIDUSER = "You are not a valid customer to return this book.";
+    private final String MESSAGE_RETURN_NOT_VALID_USER = "You are not a valid customer to return this book.";
 
 
     @Test
@@ -138,11 +138,11 @@ class BookControllerTest {
 
     @Test
     void shouldNotAbleToReturnTheBookAsDifferentCustomer() throws Exception {
-        when(bookService.returnBook(any())).thenReturn(MESSAGE_RETURN_NOTVALIDUSER);
+        when(bookService.returnBook(any())).thenReturn(MESSAGE_RETURN_NOT_VALID_USER);
         mockMvc.perform(put(RETURN_UNSUCCESS_URL).with(user("test").password("test").roles("USER"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(MESSAGE_RETURN_NOTVALIDUSER));
+                .andExpect(content().string(MESSAGE_RETURN_NOT_VALID_USER));
     }
 
 

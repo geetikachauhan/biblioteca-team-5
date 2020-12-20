@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -44,7 +43,8 @@ public class MovieController {
 
     public String getUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) userName = authentication.getName();
+        if (authentication != null)
+            userName = authentication.getName();
         return userName;
     }
 }

@@ -76,7 +76,7 @@ They also provide a library membership. Each customer is given a unique library 
 
         Spring boot security
         
-6 . CI/CD
+6. CI/CD
 
         Github Actions - continuous integration
         

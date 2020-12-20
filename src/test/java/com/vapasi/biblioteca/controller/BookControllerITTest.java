@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -27,7 +26,7 @@ class BookControllerITTest {
     private final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
     private final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
     private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
-    private final String MESSAGE_RETURN_NOTVALIDUSER = "You are not a valid customer to return this book.";
+    private final String MESSAGE_RETURN_NOT_VALID_USER = "You are not a valid customer to return this book.";
 
     private final String BOOKS_LIST_URL = "/books";
     private final String CHECKOUT_SUCCESS_URL = "/books/A Game of Thrones/checkout";
@@ -89,7 +88,7 @@ class BookControllerITTest {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         entity = new HttpEntity<String>("", httpHeaders);
         ResponseEntity<String> response = restTemplate.exchange(RETURN_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
-        assertEquals(MESSAGE_RETURN_NOTVALIDUSER, response.getBody());
+        assertEquals(MESSAGE_RETURN_NOT_VALID_USER, response.getBody());
     }
 
 }
