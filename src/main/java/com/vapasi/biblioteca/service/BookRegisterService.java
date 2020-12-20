@@ -35,4 +35,10 @@ public class BookRegisterService {
         if (authentication != null) return authentication.getName();
         return GUEST_USER;
     }
+
+    public boolean isValidUserToReturn(Integer bookId) {
+        if(bookRegisterRepository.findById(bookId).isPresent())
+            return bookRegisterRepository.findById(bookId).get().getLibraryNumber().equals(getCurrentUserName());
+        return false;
+    }
 }

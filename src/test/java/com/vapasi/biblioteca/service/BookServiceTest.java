@@ -1,6 +1,7 @@
 package com.vapasi.biblioteca.service;
 
 import com.vapasi.biblioteca.model.Book;
+import com.vapasi.biblioteca.model.Bookregister;
 import com.vapasi.biblioteca.repository.BookRegisterRepository;
 import com.vapasi.biblioteca.repository.BookRepository;
 import com.vapasi.biblioteca.response.BookResponse;
@@ -13,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,6 +37,7 @@ class BookServiceTest {
     private final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
     private final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
     private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
+    private final String MESSAGE_RETURN_NOTVALIDUSER = "You are not a valid customer to return this book.";
 
 
     private final String EXISTING_BOOK_TITLE = "The Fellowship of the Ring";
@@ -45,6 +48,8 @@ class BookServiceTest {
     private final Book CHECKEDOUT_BOOK = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, "978-1-60309-047-6" ,false);
     private final Book CHECKEDOUT_BOOK_COPY = new Book(1, EXISTING_BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, "978-1-60309-047-5" ,false);
     private final Book NON_EXISTING_BOOK = new Book(1, "Harry Potter", "JK Rowling" , 1997, "978-1-60309-025-5" , false);
+    private final Bookregister BOOK_REGISTER_WITH_GUEST = new Bookregister("Guest", 1);
+    private final Bookregister BOOK_REGISTER_WITH_TEST = new Bookregister("test", 1);
 
     @BeforeEach
     public void setup() {
@@ -97,6 +102,7 @@ class BookServiceTest {
         Book returnedBook = new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn() ,true);
         when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(expectedBookList);
         when(bookRepository.save(any())).thenReturn(returnedBook);
+        when(bookRegisterRepository.findById(CHECKEDOUT_BOOK.getId())).thenReturn(Optional.of(BOOK_REGISTER_WITH_GUEST));
         assertEquals(MESSAGE_RETURN_SUCCESS , bookService.returnBook(book.getTitle()));
     }
 
@@ -150,6 +156,15 @@ class BookServiceTest {
     void shoudlfirstAvailableBookForReturn(){
         List<Book> bookList = Arrays.asList(CHECKEDOUT_BOOK , CHECKEDOUT_BOOK_COPY);
         assertEquals(CHECKEDOUT_BOOK, bookService.firstAvailableBookForReturn(bookList));
+    }
+
+    @Test
+    void verifyReturningOfBookAgainstTheCustomerWhoCheckedOutTheBook() {
+        when(bookRepository.findByTitleOrderByIsbnAsc(any())).thenReturn(Arrays.asList(CHECKEDOUT_BOOK));
+        when(bookRegisterRepository.findById(CHECKEDOUT_BOOK.getId())).thenReturn(Optional.of(BOOK_REGISTER_WITH_GUEST));
+        assertEquals(MESSAGE_RETURN_SUCCESS, bookService.returnBook(CHECKEDOUT_BOOK.getTitle()));
+        when(bookRegisterRepository.findById(CHECKEDOUT_BOOK.getId())).thenReturn(Optional.of(BOOK_REGISTER_WITH_TEST));
+        assertEquals(MESSAGE_RETURN_NOTVALIDUSER, bookService.returnBook(CHECKEDOUT_BOOK.getTitle()));
     }
 
 }

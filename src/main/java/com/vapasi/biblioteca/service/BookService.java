@@ -11,6 +11,7 @@ import java.util.List;
 
 @Service
 public class BookService {
+
     @Autowired
     private BookRepository bookRepository;
 
@@ -23,6 +24,7 @@ public class BookService {
     private final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
     private final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
     private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
+    private final String MESSAGE_RETURN_NOTVALIDUSER = "You are not a valid customer to return this book.";
 
 
     public BookService(BookRepository bookRepository, BookRegisterService bookRegisterService) {
@@ -60,6 +62,8 @@ public class BookService {
         Book book = firstAvailableBookForReturn(bookList);
         if (book == null)
             return MESSAGE_RETURN_RETURNEDBOOK;
+        if(!bookRegisterService.isValidUserToReturn(book.getId()))
+            return MESSAGE_RETURN_NOTVALIDUSER;
 
         bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getYearPublished(), book.getIsbn(), true));
         bookRegisterService.removeBookRecord(book.getId());

@@ -26,3 +26,5 @@ values ('How to Train Your Dragon', 2010, 'Chris Sanders', 8.2, true);
 
 insert into customer(name, library_number, password, email, phone)
 values ('test', 'test', 'test', 'test@test.com', '5678902356');
+insert into customer(name, library_number, password, email, phone)
+values ('Guest', 'Guest', 'guest', 'guest@guest.com', '123456789')

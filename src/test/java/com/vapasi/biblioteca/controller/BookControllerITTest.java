@@ -27,13 +27,14 @@ class BookControllerITTest {
     private final String MESSAGE_RETURN_SUCCESS = "Thank you for returning the book";
     private final String MESSAGE_RETURN_RETURNEDBOOK = "That book has been returned already";
     private final String MESSAGE_RETURN_UNSUCCESSFULL = "That is not a valid book to return";
+    private final String MESSAGE_RETURN_NOTVALIDUSER = "You are not a valid customer to return this book.";
 
     private final String BOOKS_LIST_URL = "/books";
     private final String CHECKOUT_SUCCESS_URL = "/books/A Game of Thrones/checkout";
     private final String CHECKOUT_UNSUCCESS_URL = "/books/Harry Potter/checkout";
     private final String CHECKOUT_ALREADYCHECKEDOUT_URL = "/books/The Colour of Magic/checkout";
 
-    private final String RETURN_SUCCESS_URL = "/books/The Colour of Magic/return";
+    private final String RETURN_SUCCESS_URL = "/books/A Game of Thrones/return";
     private final String RETURN_UNSUCCESS_URL = "/books/Harry Potter/return";
     private final String RETURN_ALREADYRETURNED_URL = "/books/A Game of Thrones/return";
 
@@ -69,6 +70,7 @@ class BookControllerITTest {
 
     @Test
     void shouldReturnBook() {
+        restTemplate.exchange(CHECKOUT_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
         ResponseEntity<String> response = this.restTemplate.exchange(RETURN_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
         assertEquals(MESSAGE_RETURN_SUCCESS, response.getBody());
     }
@@ -78,4 +80,16 @@ class BookControllerITTest {
        ResponseEntity<String> response = this.restTemplate.exchange(RETURN_UNSUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
        assertEquals(MESSAGE_RETURN_UNSUCCESSFULL, response.getBody());
     }
+
+    @Test
+    void shouldNotReturnBookAsDifferentCustomer() {
+        restTemplate.exchange(CHECKOUT_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBasicAuth("Guest", "guest");
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        entity = new HttpEntity<String>("", httpHeaders);
+        ResponseEntity<String> response = restTemplate.exchange(RETURN_SUCCESS_URL, HttpMethod.PUT, entity, String.class, id);
+        assertEquals(MESSAGE_RETURN_NOTVALIDUSER, response.getBody());
+    }
+
 }
