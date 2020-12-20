@@ -34,16 +34,6 @@ jobs:
           JDBC_DATABASE_USERNAME: postgres
           JDBC_DATABASE_PASSWORD: postgres
           SPRING_PROFILES_ACTIVE: local
-  deploy-custom-domain:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.7.8
-        with:
-          heroku_api_key: 6ab51d4d-2020-4bf0-8ddb-1e96be311572
-          heroku_app_name: bbtlibrary
-          heroku_email: rathipry@gmail.com
   deploy:
     runs-on: ubuntu-latest
     needs: build
