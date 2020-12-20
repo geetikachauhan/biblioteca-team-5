@@ -1,0 +1,1 @@
+UPDATE biblioteca.customer SET password = '$2a$10$Rrpi5qiciE7fcnpa8Pt46.G3TW5X13tA6pbWokQ.HHN6eX5MooUe.';
