@@ -25,6 +25,6 @@ insert into movie(movie_name, movie_year, director, rating, available)
 values ('How to Train Your Dragon', 2010, 'Chris Sanders', 8.2, true);
 
 insert into customer(name, library_number, password, email, phone)
-values ('test', 'test', 'test', 'test@test.com', '5678902356');
+values ('test', 'test', '$2a$10$M/y/L6IrYaujg6iiKIH6S.iggzpXmYHRNDwRPx5E2ygCWA4fZY4OS', 'test@test.com', '5678902356');
 insert into customer(name, library_number, password, email, phone)
-values ('Guest', 'Guest', 'guest', 'guest@guest.com', '123456789')
+values ('Guest', 'Guest', '$2a$10$XBCWw1OqScGVVMBbKi1P1eDmpaMsnGGeEKTbhwRkhzyFS3vSUmyUi', 'guest@guest.com', '123456789')

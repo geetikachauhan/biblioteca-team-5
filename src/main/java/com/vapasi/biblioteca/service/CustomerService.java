@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,8 +21,10 @@ public class CustomerService implements UserDetailsService {
     @Autowired
     CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+    public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
@@ -36,8 +39,7 @@ public class CustomerService implements UserDetailsService {
         Customer customer = customerRepository.findByLibraryNumber(libraryNumber);
         if (customer != null)
             return new User(customer.getLibraryNumber(),customer.getPassword(), buildSimpleGrantedAuthorities("ROLE_USER"));
-        else
-            throw new BadCredentialsException("User Not Found");
+        else throw new BadCredentialsException("User Not Found");
     }
 
     private static List<SimpleGrantedAuthority> buildSimpleGrantedAuthorities(String role) {

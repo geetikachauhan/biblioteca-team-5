@@ -37,8 +37,6 @@ class BookControllerITTest {
     private final String RETURN_UNSUCCESS_URL = "/books/Harry Potter/return";
     private final String RETURN_ALREADYRETURNED_URL = "/books/A Game of Thrones/return";
 
-
-
     @BeforeEach
     public void setUp() {
         id = 2l;

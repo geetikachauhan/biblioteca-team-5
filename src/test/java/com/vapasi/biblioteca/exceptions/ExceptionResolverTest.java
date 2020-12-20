@@ -22,14 +22,10 @@ class ExceptionResolverTest {
     private final String UNAUTHORIZED_ERROR_MESSAGE = "Page Not Found";
     private final String UNAUTHORIZED_ERROR_URL = "/customer";
 
-
-
     HttpEntity<String> entity;
     Long id;
     HttpHeaders headers = new HttpHeaders();
     String requestBody = "";
-
-
 
     @BeforeEach
     public void setUp() {
